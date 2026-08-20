@@ -356,10 +356,19 @@ export const projects: Project[] = [
      * sit behind this card, so the cover shows three of them — the poster kept
      * whole beside two behind-the-scenes frames.
      */
+    /*
+     * Behind-the-scenes only. Giorgio, 21 August 2026: "Since all the projects
+     * have its respective cards when opened feature, have the main card have BTS
+     * photos only, so remove the beyond the belt thumbnail on the main one."
+     *
+     * Right call — the poster now leads its own card, so repeating it here was
+     * saying the same thing twice. The set-photos say something the posters
+     * cannot: that there was a crew and a day and a lot of standing around.
+     */
     media: {
       kind: 'collage',
-      src: '/media/projects/beyond-the-belt-poster.webp',
-      extra: ['/media/projects/beyond-the-belt-bts.jpg', '/media/projects/wedding-bts.jpg'],
+      src: '/media/projects/beyond-the-belt-bts.jpg',
+      extra: ['/media/projects/newmans-bts.jpg', '/media/projects/jmuse-bts.jpg'],
     },
     // A single card with several works behind it, rather than five cards that
     // would drown the web work this portfolio is actually arguing for.
@@ -457,6 +466,7 @@ export const filmWorks: Project[] = [
     tags: ['Documentary', 'Edit'],
     role: "Director and editor — script credited to Carrick Thring and Jaden Mutty",
     href: 'https://youtu.be/53LYU3OOTl0',
+    media: { kind: 'video', src: '/media/projects/newmans-cut.mp4', poster: '/media/projects/newmans-bts.jpg' },
   },
   {
     index: '04d',
@@ -466,22 +476,7 @@ export const filmWorks: Project[] = [
     tags: ['Music video', 'Edit'],
     role: 'Full edit — digipak led by Carrick Thring and Jaden Mutty',
     href: 'https://youtu.be/O0L27q0Kumw',
-  },
-  {
-    index: '04e',
-    name: 'Lessons from Samson',
-    blurb: 'An individual production carried from script through to the final edit.',
-    tags: ['Film', 'Solo'],
-    role: 'Script through final edit',
-    href: 'https://youtu.be/fneTwfgievM',
-  },
-  {
-    index: '04f',
-    name: 'Slowliving in Bali',
-    blurb: 'A vlog where the edit is doing most of the work — pacing, rhythm and restraint.',
-    tags: ['Vlog', 'Edit'],
-    role: 'Individual production, editing strongest',
-    href: 'https://youtu.be/zuTnqzinqOs',
+    media: { kind: 'video', src: '/media/projects/jmuse-cut.mp4', poster: '/media/projects/jmuse-bts.jpg' },
   },
 ];
 
@@ -765,7 +760,7 @@ export const credentials: Credential[] = [
     detail:
       'Where the Media Studies archive and Thompsonia came from. Beyond the Belt was a church project and Revora a side project of my own — neither was set by the school, they just happened during it.',
     image: {
-      src: '/media/credentials/regents-ijazah.jpg',
+      src: '/media/credentials/regents-ijazah.png',
       alt: 'Indonesian secondary school graduation certificate (ijazah)',
     },
   },

@@ -33,6 +33,29 @@ import { useEffect } from 'react';
  * rect and so cannot disturb those measurements either.
  */
 export function IntroSequence() {
+  /*
+   * A reload starts at the top, every time.
+   *
+   * Giorgio, 21 August 2026: "when i refesh the page it should go back to home
+   * ans restart the animation."
+   *
+   * Browsers restore the previous scroll position on reload, which on this page
+   * dropped the reader into the middle of a pinned chapter with every scroll
+   * tween mid-flight — and skipped the entrance entirely, since it only runs
+   * near the top. Turning restoration off makes reload mean what he expects.
+   *
+   * This runs in its own effect, before the entrance below, so the scroll is
+   * already at zero when the entrance decides whether to play.
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    // Deep links still work: only a bare reload is sent home.
+    if (!window.location.hash) window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -40,8 +63,8 @@ export function IntroSequence() {
     // content that is not already in the DOM, so skipping it loses nothing.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Only run at the top of the page. On a reload part-way down, the scroll
-    // tweens are mid-flight and an entrance would look like a glitch.
+    // Only run at the top of the page. A hash deep-link lands mid-page, where
+    // the scroll tweens are already mid-flight and an entrance would glitch.
     if (window.scrollY > 40) return;
 
     let cancelled = false;

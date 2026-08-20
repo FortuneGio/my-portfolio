@@ -57,22 +57,45 @@ export function ProjectsChapter() {
       (async () => {
         const { gsap } = await import('gsap');
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+
+        /*
+         * Giorgio, 21 August 2026: "everything like shook and moved, should've
+         * only be films projects sliding from the main card to the right, the
+         * main card stays still."
+         *
+         * Two causes, both fixed here.
+         *
+         * One: every card was being tweened, including ones that had not moved,
+         * so the whole row twitched. Now a card is only touched if it is new or
+         * its position actually changed by more than a pixel.
+         *
+         * Two: ScrollTrigger.refresh() re-measures the pin, and because the row
+         * just got longer the pin's end moved — which yanked the track under the
+         * reader. Holding window.scrollY across the refresh keeps the page where
+         * it was.
+         */
+        const anchor = window.scrollY;
+
+        // New cards emerge from behind the card that spawned them, then settle.
+        const spawnedFrom = before.get('04');
         cards.forEach((c) => {
           const key = c.dataset.card!;
           const from = before.get(key);
           const to = after.get(key)!;
+
           if (from === undefined) {
-            // A card that did not exist before: it arrives rather than slides.
             gsap.fromTo(
               c,
-              { opacity: 0, scaleX: 0.86, transformOrigin: 'left center' },
-              { opacity: 1, scaleX: 1, duration: 0.5, ease: 'power3.out' },
+              { x: spawnedFrom !== undefined ? spawnedFrom - to : -60, opacity: 0, scale: 0.94 },
+              { x: 0, opacity: 1, scale: 1, duration: 0.66, ease: 'power3.out' },
             );
           } else if (Math.abs(from - to) > 1) {
-            gsap.fromTo(c, { x: from - to }, { x: 0, duration: 0.62, ease: 'power3.out' });
+            gsap.fromTo(c, { x: from - to }, { x: 0, duration: 0.66, ease: 'power3.out' });
           }
         });
+
         ScrollTrigger.refresh();
+        window.scrollTo(0, anchor);
       })();
     }
 
@@ -136,7 +159,7 @@ export function ProjectsChapter() {
         <div data-track-viewport className="mt-10 overflow-hidden lg:mt-8 lg:min-h-0 lg:flex-1">
           <ul
             data-track
-            className="flex flex-col gap-5 px-[var(--gutter)] lg:h-full lg:w-max lg:flex-row lg:gap-6 lg:pr-[20vw]"
+            className="flex flex-col gap-5 px-[var(--gutter)] lg:h-full lg:w-max lg:flex-row lg:gap-6 lg:pr-[var(--gutter)]"
             style={{ paddingLeft: 'var(--chapter-inset)' }}
           >
             {shown.map((p) => (
