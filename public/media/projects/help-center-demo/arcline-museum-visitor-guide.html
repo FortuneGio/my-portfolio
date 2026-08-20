@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Arcline Museum Visitor Guide — Plan your visit</title>
+<meta name="description" content="A fictional visitor guide covering entry, exhibitions, accessibility, families, transport, and museum guidelines.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  :root {
+    --brand-bg: #FAFAFA;
+    --brand-ink: #14181F;
+
+    --color-bg: var(--brand-bg);
+    --color-surface: #FFFFFF;
+    --color-surface-2: #F0F2F1;
+    --color-border: #E2E6E4;
+    --color-text: var(--brand-ink);
+    --color-text-muted: #5C6672;
+    --color-accent: #0F9C8E;
+    --color-accent-strong: #0B7F74;
+    --color-accent-soft: #E3F5F2;
+    --color-accent-contrast: #FFFFFF;
+    --color-good: #178A5B;
+    --color-good-soft: #DFF3E7;
+    --color-warn: #B5720A;
+    --color-warn-soft: #FBEEDC;
+    --shadow-1: 0 1px 2px rgba(20,24,31,0.06);
+    --shadow-2: 0 8px 24px rgba(20,24,31,0.12);
+
+    --font-display: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --color-bg: #12161C;
+      --color-surface: #191F27;
+      --color-surface-2: #1F2730;
+      --color-border: #2B333D;
+      --color-text: #F5F7F6;
+      --color-text-muted: #93A0AC;
+      --color-accent: #3FD6C4;
+      --color-accent-strong: #6BE0D2;
+      --color-accent-soft: #173330;
+      --color-accent-contrast: #0B1310;
+      --color-good: #4FC98F;
+      --color-good-soft: #153627;
+      --color-warn: #E3AC5E;
+      --color-warn-soft: #3A2C15;
+      --shadow-1: 0 1px 2px rgba(0,0,0,0.35);
+      --shadow-2: 0 12px 32px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --color-bg: #12161C;
+    --color-surface: #191F27;
+    --color-surface-2: #1F2730;
+    --color-border: #2B333D;
+    --color-text: #F5F7F6;
+    --color-text-muted: #93A0AC;
+    --color-accent: #3FD6C4;
+    --color-accent-strong: #6BE0D2;
+    --color-accent-soft: #173330;
+    --color-accent-contrast: #0B1310;
+    --color-good: #4FC98F;
+    --color-good-soft: #153627;
+    --color-warn: #E3AC5E;
+    --color-warn-soft: #3A2C15;
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-2: 0 12px 32px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--color-accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; letter-spacing: -0.01em; }
+  button { font-family: inherit; }
+
+  /* ---------- Notice banner ---------- */
+  .demo-notice {
+    background: var(--color-accent-soft); color: var(--color-accent-strong);
+    text-align: center; font-size: 12.5px; font-weight: 600; letter-spacing: 0.01em;
+    padding: 7px 16px; border-bottom: 1px solid var(--color-border);
+  }
+
+  /* ---------- Header ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-inner {
+    max-width: 1080px; margin: 0 auto;
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .brand:hover { text-decoration: none; }
+  .brand-mark {
+    width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px;
+    background: var(--color-surface-2); border: 1px solid var(--color-border);
+    display: flex; align-items: center; justify-content: center; gap: 2px; padding: 6px 7px;
+  }
+  .brand-mark i { display: block; border-radius: 1.5px; background: var(--color-accent); }
+  .brand-mark i:nth-child(1) { width: 4px; height: 8px; opacity: .55; }
+  .brand-mark i:nth-child(2) { width: 4px; height: 13px; opacity: .8; align-self: flex-end; }
+  .brand-mark i:nth-child(3) { width: 4px; height: 18px; align-self: flex-end; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-text b { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--color-text); }
+  .brand-text span { font-size: 11.5px; color: var(--color-text-muted); letter-spacing: 0.03em; text-transform: uppercase; }
+
+  .header-search { flex: 1; max-width: 440px; margin-left: auto; position: relative; }
+  .header-search input {
+    width: 100%; padding: 9px 14px 9px 36px;
+    border-radius: 8px; border: 1px solid var(--color-border);
+    background: var(--color-surface); color: var(--color-text);
+    font-size: 14px;
+  }
+  .header-search svg.search-icon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--color-text-muted); pointer-events: none;
+  }
+  .header-search kbd.hint {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+    font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted);
+    border: 1px solid var(--color-border); border-radius: 4px; padding: 1px 5px;
+    background: var(--color-surface-2);
+  }
+
+  .theme-toggle, .menu-toggle {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--color-border); background: var(--color-surface);
+    color: var(--color-text-muted); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: color .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover, .menu-toggle:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .theme-toggle svg, .menu-toggle svg { width: 18px; height: 18px; }
+  .menu-toggle { display: none; }
+
+  /* ---------- Layout ---------- */
+  main { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+  .crumbs { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-muted); margin: 28px 0 18px; flex-wrap: wrap; }
+  .crumbs a { color: var(--color-text-muted); }
+  .crumbs a:hover { color: var(--color-accent); }
+  .crumbs .sep { opacity: 0.5; }
+  .crumbs .current { color: var(--color-text); }
+
+  /* ---------- Sidebar nav ---------- */
+  .kb-layout { display: grid; grid-template-columns: 240px minmax(0,1fr); gap: 36px; align-items: start; }
+  .kb-sidebar {
+    position: sticky; top: 86px; max-height: calc(100vh - 106px); overflow-y: auto;
+    padding-right: 4px; margin-top: 28px;
+  }
+  .kb-sidebar-title { font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; padding: 0 10px 10px; }
+  .sb-mobile-toggle {
+    display: none; width: 100%; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 10px 14px; margin-bottom: 12px; border-radius: 10px; border: 1px solid var(--color-border);
+    background: var(--color-surface); color: var(--color-text); font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .sb-mobile-toggle svg { width: 16px; height: 16px; color: var(--color-text-muted); transition: transform .15s ease; }
+  .sb-cat-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .sb-cat { border-radius: 8px; overflow: hidden; }
+  .sb-cat-row {
+    display: flex; align-items: center; gap: 6px; width: 100%;
+    padding: 9px 8px 9px 10px; border-radius: 8px; border: none; background: none;
+    font-family: inherit; font-size: 14px; text-align: left; cursor: pointer; color: var(--color-text);
+  }
+  .sb-cat-row:hover { background: var(--color-surface-2); }
+  .sb-cat.active > .sb-cat-row { background: var(--color-surface-2); font-weight: 700; }
+  .sb-cat-row .sb-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sb-chevron {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; border: none; background: none;
+    display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); cursor: pointer;
+  }
+  .sb-chevron:hover { background: var(--color-border); }
+  .sb-chevron svg { width: 15px; height: 15px; transition: transform .15s ease; }
+  .sb-cat.open .sb-chevron svg { transform: rotate(180deg); }
+  .sb-articles { list-style: none; margin: 2px 0 6px; padding: 0 0 0 20px; display: none; flex-direction: column; }
+  .sb-cat.open .sb-articles { display: flex; }
+  .sb-articles li a {
+    display: block; padding: 7px 10px; border-radius: 7px; font-size: 13.5px;
+    color: var(--color-text-muted); border-left: 2px solid var(--color-border);
+    margin-left: 1px; padding-left: 12px;
+  }
+  .sb-articles li a:hover { color: var(--color-text); text-decoration: none; background: var(--color-surface-2); }
+  .sb-articles li a.current { color: var(--color-accent); border-left-color: var(--color-accent); font-weight: 700; background: var(--color-accent-soft); }
+  @media (max-width: 880px) {
+    .kb-layout { grid-template-columns: 1fr; }
+    .kb-sidebar { position: static; max-height: none; margin-top: 0; padding-bottom: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border); }
+    .sb-mobile-toggle { display: flex; }
+    .sb-cat-list { display: none; flex-direction: column; gap: 2px; padding-bottom: 12px; }
+    .kb-sidebar.open .sb-cat-list { display: flex; }
+    .sb-mobile-toggle.open svg { transform: rotate(180deg); }
+  }
+
+  /* ---------- Home hero ---------- */
+  .hero { padding: 56px 0 8px; text-align: center; }
+  .hero .eyebrow {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(28px, 4.4vw, 42px); margin: 0 0 12px; }
+  .hero p.sub { color: var(--color-text-muted); font-size: 16.5px; max-width: 46ch; margin: 0 auto 32px; }
+
+  .search-hero { max-width: 600px; margin: 0 auto; position: relative; }
+  .search-hero input {
+    width: 100%; padding: 16px 20px 16px 48px;
+    border-radius: 12px; border: 1px solid var(--color-border);
+    background: var(--color-surface); color: var(--color-text);
+    font-size: 16px; box-shadow: var(--shadow-1);
+  }
+  .search-hero svg.search-icon {
+    position: absolute; left: 18px; top: 22px;
+    width: 20px; height: 20px; color: var(--color-text-muted); pointer-events: none;
+  }
+
+  .suggest {
+    position: absolute; left: 0; right: 0; top: calc(100% + 8px);
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: 12px; box-shadow: var(--shadow-2); overflow: hidden; text-align: left; z-index: 20;
+  }
+  .suggest a {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 11px 16px; color: var(--color-text); border-bottom: 1px solid var(--color-border);
+  }
+  .suggest a:last-child { border-bottom: none; }
+  .suggest a:hover, .suggest a.active { background: var(--color-surface-2); text-decoration: none; }
+  .suggest .s-title { font-size: 14px; font-weight: 700; }
+  .suggest .s-cat { font-size: 12px; color: var(--color-text-muted); }
+  .suggest .s-more { padding: 10px 16px; font-size: 13px; color: var(--color-accent); font-weight: 700; background: var(--color-surface-2); }
+
+  /* ---------- Popular row ---------- */
+  .popular { display: flex; flex-wrap: wrap; gap: 8px 10px; justify-content: center; margin: 22px 0 8px; }
+  .popular a {
+    font-size: 13px; padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--color-border); color: var(--color-text-muted);
+    background: var(--color-surface);
+  }
+  .popular a:hover { color: var(--color-accent); border-color: var(--color-accent); text-decoration: none; }
+
+  /* ---------- Category grid ---------- */
+  .section-label {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-text-muted); font-weight: 700; margin: 0 0 16px;
+  }
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin: 8px 0 48px;
+  }
+  @media (max-width: 760px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .cat-grid { grid-template-columns: 1fr; } }
+
+  .cat-card {
+    display: block; padding: 20px; border-radius: 14px;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    color: var(--color-text); transition: border-color .15s ease, transform .15s ease;
+  }
+  .cat-card:hover { border-color: var(--color-accent); text-decoration: none; transform: translateY(-1px); }
+  .cat-card .icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+  }
+  .cat-card .icon svg { width: 18px; height: 18px; }
+  .cat-card h3 { font-size: 16px; margin: 0 0 4px; }
+  .cat-card p { font-size: 13.5px; color: var(--color-text-muted); margin: 0 0 10px; }
+  .cat-card .count { font-size: 12px; color: var(--color-text-muted); }
+
+  /* ---------- Category page ---------- */
+  .cat-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 32px; }
+  .cat-header .icon {
+    width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cat-header .icon svg { width: 24px; height: 24px; }
+  .cat-header h1 { font-size: 27px; margin: 2px 0 6px; }
+  .cat-header p { color: var(--color-text-muted); margin: 0; max-width: 60ch; }
+
+  .article-list { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: 14px; overflow: hidden; background: var(--color-surface); }
+  .article-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--color-border); color: var(--color-text); }
+  .article-row:last-child { border-bottom: none; }
+  .article-row:hover { background: var(--color-surface-2); text-decoration: none; }
+  .article-row .a-title { font-weight: 700; font-size: 15px; margin: 0 0 3px; }
+  .article-row .a-summary { font-size: 13.5px; color: var(--color-text-muted); margin: 0; }
+  .article-row .chev { flex-shrink: 0; width: 16px; height: 16px; color: var(--color-text-muted); }
+
+  /* ---------- Article page ---------- */
+  .article-wrap { display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: 48px; align-items: start; }
+  @media (max-width: 820px) { .article-wrap { grid-template-columns: 1fr; } }
+
+  .article-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; color: var(--color-accent);
+    background: var(--color-accent-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .article h1 { font-size: 29px; margin: 0 0 8px; }
+  .article .lede { font-size: 16.5px; color: var(--color-text-muted); margin: 0 0 28px; max-width: 62ch; }
+  .article h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; margin: 30px 0 12px; color: var(--color-text-muted); }
+  .article p { max-width: 65ch; margin: 0 0 14px; }
+  .article ol.steps { max-width: 65ch; margin: 0 0 8px; padding-left: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .article ol.steps li { padding-left: 4px; }
+  .article ol.steps li::marker { font-weight: 700; color: var(--color-accent); }
+  .article ul.bullets { max-width: 65ch; margin: 0 0 8px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .article strong { font-weight: 650; }
+  .article code, .kbd { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: 5px; padding: 1px 6px; }
+  .callout {
+    max-width: 65ch; border-radius: 10px; padding: 14px 16px; margin: 18px 0; font-size: 14.5px;
+    border: 1px solid var(--color-border); background: var(--color-surface-2);
+  }
+  .callout.tip { border-color: color-mix(in srgb, var(--color-accent) 35%, var(--color-border)); background: var(--color-accent-soft); }
+  .callout.note { border-color: color-mix(in srgb, var(--color-good) 35%, var(--color-border)); background: var(--color-good-soft); }
+  .callout.caution { border-color: color-mix(in srgb, var(--color-warn) 45%, var(--color-border)); background: var(--color-warn-soft); }
+  .callout b { display: block; margin-bottom: 3px; }
+  dl.fields { max-width: 65ch; display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; margin: 4px 0 20px; font-size: 14.5px; }
+  dl.fields dt { font-weight: 700; white-space: nowrap; }
+  dl.fields dd { margin: 0; color: var(--color-text-muted); }
+
+  .side { position: sticky; top: 86px; display: flex; flex-direction: column; gap: 22px; }
+  .side .box { border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; background: var(--color-surface); }
+  .side .box h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); }
+  .side .box a { display: block; font-size: 13.5px; padding: 6px 0; color: var(--color-text); }
+  .side .box a:hover { color: var(--color-accent); text-decoration: none; }
+  @media (max-width: 820px) { .side { position: static; } }
+
+  /* ---------- Search results ---------- */
+  .results-count { color: var(--color-text-muted); font-size: 14px; margin-bottom: 18px; }
+  .empty { text-align: center; padding: 64px 20px; color: var(--color-text-muted); }
+  .empty h2 { color: var(--color-text); font-size: 20px; margin-bottom: 8px; text-transform: none; letter-spacing: 0; }
+
+  mark { background: var(--color-accent-soft); color: var(--color-text); border-radius: 3px; padding: 0 2px; }
+
+  footer.site {
+    border-top: 1px solid var(--color-border); margin-top: 40px;
+    padding: 28px 24px; text-align: center; color: var(--color-text-muted); font-size: 13px;
+  }
+  footer.site .fictional-note { display: block; margin-top: 6px; font-size: 12px; opacity: .8; }
+
+  /* ---------- Intro animation ---------- */
+  @keyframes introBarUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes introTextIn { to { opacity: 1; transform: translateX(0); } }
+  #intro {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--color-bg);
+    transition: opacity .28s ease;
+  }
+  #intro.intro-done { opacity: 0; pointer-events: none; }
+  #intro-lockup { display: flex; align-items: center; gap: 28px; transform-origin: 0 0; will-change: transform; }
+  #intro-mark-plate {
+    width: 96px; height: 96px; flex-shrink: 0; border-radius: 22px;
+    background: var(--color-surface-2); border: 1px solid var(--color-border);
+    display: flex; align-items: flex-end; justify-content: center; gap: 7px; padding: 0 0 18px;
+  }
+  .intro-bar {
+    width: 12px; border-radius: 4px; background: var(--color-accent);
+    opacity: 0; transform: translateY(10px);
+    animation: introBarUp .5s cubic-bezier(.16,.9,.32,1) forwards;
+  }
+  .intro-bar[data-bar="a"] { height: 22px; opacity: .5; animation-delay: .05s; }
+  .intro-bar[data-bar="b"] { height: 36px; opacity: .75; animation-delay: .23s; }
+  .intro-bar[data-bar="c"] { height: 50px; animation-delay: .41s; }
+  #intro-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; white-space: nowrap; }
+  #intro-brand, #intro-tagline { opacity: 0; transform: translateX(-26px); }
+  #intro.intro-text-in #intro-brand { animation: introTextIn .5s cubic-bezier(.16,.9,.32,1) forwards; }
+  #intro.intro-text-in #intro-tagline { animation: introTextIn .5s cubic-bezier(.16,.9,.32,1) forwards; animation-delay: .16s; }
+  #intro-brand { font-family: var(--font-display); font-weight: 800; font-size: 48px; color: var(--color-text); letter-spacing: -0.01em; }
+  #intro-tagline {
+    position: relative; display: block; height: 1.3em; margin-top: 2px; overflow: hidden;
+    font-family: var(--font-display); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);
+  }
+  #intro-tagline .tl { transition: opacity .4s ease, transform .4s ease; }
+  #intro-tagline .tl-a { opacity: 1; transform: translateY(0); }
+  #intro-tagline .tl-b { position: absolute; left: 0; top: 0; opacity: 0; transform: translateY(8px); }
+  #intro.intro-morph #intro-tagline .tl-a { opacity: 0; transform: translateY(-8px); }
+  #intro.intro-morph #intro-tagline .tl-b { opacity: 1; transform: translateY(0); }
+  #intro.intro-dock #intro-lockup { transition: transform .62s cubic-bezier(.65,0,.35,1); }
+  #intro-skip {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-size: 12.5px; color: var(--color-text-muted); background: none; border: none; cursor: pointer;
+    padding: 6px 12px; border-radius: 999px;
+  }
+  #intro-skip:hover { color: var(--color-accent); }
+</style>
+
+<script>
+(function(){
+  try {
+    var t = localStorage.getItem('arcline-visitor-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+
+<div class="demo-notice">Fictional portfolio recreation. No confidential company information is shown.</div>
+
+<div id="intro" aria-hidden="true">
+  <div id="intro-lockup">
+    <div id="intro-mark-plate">
+      <div class="intro-bar" data-bar="a"></div>
+      <div class="intro-bar" data-bar="b"></div>
+      <div class="intro-bar" data-bar="c"></div>
+    </div>
+    <div id="intro-text">
+      <span id="intro-brand">Arcline</span>
+      <span id="intro-tagline">
+        <span class="tl tl-a">plan a thoughtful museum day</span>
+        <span class="tl tl-b">Visitor Guide</span>
+      </span>
+    </div>
+  </div>
+  <button id="intro-skip" type="button">Skip intro</button>
+</div>
+<script>
+(function(){
+  var intro = document.getElementById('intro');
+  var lockup = document.getElementById('intro-lockup');
+  if (!intro || !lockup) return;
+
+  var timeouts = [];
+  function schedule(fn, ms) { timeouts.push(setTimeout(fn, ms)); }
+  function clearAll() { timeouts.forEach(clearTimeout); timeouts = []; }
+
+  function finish() {
+    intro.classList.add('intro-done');
+    setTimeout(function () { intro.remove(); }, 320);
+  }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    finish();
+    return;
+  }
+
+  function dock() {
+    window.removeEventListener('keydown', skip);
+    window.removeEventListener('pointerdown', skip);
+    var targetEl = document.querySelector('.brand');
+    if (!targetEl) { finish(); return; }
+    var t = targetEl.getBoundingClientRect();
+    var c = lockup.getBoundingClientRect();
+    var scale = t.width / c.width;
+    var tx = t.left - c.left;
+    var ty = t.top - c.top;
+    intro.classList.add('intro-dock');
+    lockup.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    schedule(finish, 660);
+  }
+
+  var skipped = false;
+  function skip() {
+    if (skipped) return;
+    skipped = true;
+    clearAll();
+    intro.classList.add('intro-text-in', 'intro-morph');
+    requestAnimationFrame(dock);
+  }
+  window.addEventListener('keydown', skip, { once: true });
+  window.addEventListener('pointerdown', skip, { once: true });
+  var skipBtn = document.getElementById('intro-skip');
+  if (skipBtn) skipBtn.addEventListener('click', skip);
+
+  schedule(function () { intro.classList.add('intro-text-in'); }, 950);
+  schedule(function () { intro.classList.add('intro-morph'); }, 1700);
+  schedule(dock, 2250);
+})();
+</script>
+
+<header class="site">
+  <div class="header-inner">
+    <a class="brand" href="#/">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-text"><b>Arcline</b><span>Visitor Guide</span></span>
+    </a>
+    <div class="header-search" id="header-search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <input id="header-search" type="text" placeholder="Search articles…" autocomplete="off" aria-label="Search articles">
+      <kbd class="hint">/</kbd>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme"></button>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer class="site">
+  Arcline Museum Visitor Guide — a sample knowledge base for demonstration purposes.
+  <span class="fictional-note">All company names, articles, and data on this page are fictional.</span>
+</footer>
+
+<script>
+/* ======================= ICONS ======================= */
+const ICONS = {
+  compass: '<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.3l2.1 4.2-2.1 4.2-2.1-4.2 2.1-4.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  bell: '<path d="M12 3.5c-2.5 0-4.5 2-4.5 4.5v3.2c0 .9-.4 1.8-1.1 2.4L5.5 15h13l-1-1.4c-.6-.6-1.1-1.5-1.1-2.4V8c0-2.5-2-4.5-4.4-4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 18a2.4 2.4 0 0 0 4.8 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  palette: '<path d="M12 4a8 8 0 1 0 0 16c1.2 0 2-1 2-2.1 0-.6-.2-1-.5-1.4-.3-.4-.5-.8-.5-1.3 0-1 .8-1.7 1.8-1.7H16a4 4 0 0 0 4-4C20 5.6 16.4 4 12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8.3" cy="10.6" r="1.05" fill="currentColor"/><circle cx="11.3" cy="7.8" r="1.05" fill="currentColor"/><circle cx="15" cy="9.1" r="1.05" fill="currentColor"/>',
+  folder: '<path d="M4 7a1.5 1.5 0 0 1 1.5-1.5h4l1.8 2h7.2A1.5 1.5 0 0 1 20 9v8.5A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  columns: '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M9 4.5v15M15 4.5v15" stroke="currentColor" stroke-width="1.6"/>',
+  flow: '<circle cx="5.5" cy="12" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="18.5" cy="6.5" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="2.1" stroke="currentColor" stroke-width="1.6"/><path d="M7.4 11l9-4M7.4 13l9 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  team: '<circle cx="9" cy="8.5" r="2.7" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="9.5" r="2.1" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19.5c0-3 2.5-5.3 5.5-5.3s5.5 2.3 5.5 5.3M14.5 15c2.3.3 4 2.2 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  lock: '<rect x="5.5" y="10.5" width="13" height="9" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15" r="1.2" fill="currentColor"/>'
+};
+
+/* ======================= CONTENT ======================= */
+const CATEGORIES = [
+  { id: 'plan', title: 'Plan Your Visit', icon: 'compass', desc: 'Choose a time, prepare for arrival, and make the most of a fictional museum day.' },
+  { id: 'tickets', title: 'Tickets & Entry', icon: 'bell', desc: 'Learn about admission, timed entry, and group arrival.' },
+  { id: 'exhibitions', title: 'Current Exhibitions', icon: 'palette', desc: 'Find galleries, temporary displays, and ways to explore.' },
+  { id: 'accessibility', title: 'Accessibility', icon: 'folder', desc: 'Plan step-free routes, quieter visits, and supported access.' },
+  { id: 'families', title: 'Families & Schools', icon: 'columns', desc: 'Practical guidance for children, carers, and school groups.' },
+  { id: 'transport', title: 'Getting Here', icon: 'flow', desc: 'Compare public transport, cycling, and parking options.' },
+  { id: 'guidelines', title: 'Museum Guidelines', icon: 'team', desc: 'Know the rules for photography, bags, food, and gallery care.' },
+  { id: 'visitor-help', title: 'Visitor Support', icon: 'lock', desc: 'Find on-site assistance, lost property, and feedback channels.' },
+];
+
+const ART = (id, cat, title, summary, keywords, related, body) => ({ id, cat, title, summary, keywords, related, body });
+
+const ARTICLES = [
+  ART('plan-hours', 'plan', 'Opening hours and quieter times', 'Choose an arrival window that fits your pace.',
+    ['hours','opening','quiet','crowds'], ['plan-prepare','access-quiet'],
+    `<h2>WHEN TO VISIT</h2>
+     <p>Arcline Museum is a fictional venue created for this portfolio demo. For demonstration purposes, galleries are described as open Tuesday to Sunday from 10:00 to 18:00.</p>
+     <ul class="bullets">
+       <li><strong>Quieter window</strong> — weekday mornings between 10:00 and 12:00.</li>
+       <li><strong>Last entry</strong> — 45 minutes before closing.</li>
+       <li><strong>Closed</strong> — Mondays and fictional public-holiday maintenance days.</li>
+     </ul>
+     <div class="callout note"><b>Demo note</b>These times are invented and do not describe a real museum.</div>`),
+  ART('plan-prepare', 'plan', 'What to bring', 'Pack lightly and prepare for a comfortable gallery visit.',
+    ['bring','clothing','water','preparation'], ['plan-hours','rules-bags'],
+    `<h2>BEFORE YOU LEAVE</h2>
+     <p>Gallery temperatures can feel cool, and the fictional campus includes indoor and outdoor routes.</p>
+     <ul class="bullets">
+       <li>Wear comfortable shoes and bring a light layer.</li>
+       <li>Keep large bags at home when possible.</li>
+       <li>Bring headphones if you plan to use the sample audio trail.</li>
+       <li>Check the accessibility route before travelling with mobility equipment.</li>
+     </ul>`),
+  ART('plan-route', 'plan', 'Build a 90-minute route', 'A simple path through the fictional collection highlights.',
+    ['route','ninety minutes','highlights','plan'], ['exhibit-orientation','plan-hours'],
+    `<h2>SAMPLE HIGHLIGHTS ROUTE</h2>
+     <ol class="steps">
+       <li>Begin in the Atrium Gallery for the orientation display.</li>
+       <li>Continue to Level 2 for the rotating design exhibition.</li>
+       <li>Pause in the Window Court before visiting the Archive Room.</li>
+       <li>Finish in the Sculpture Garden near the main exit.</li>
+     </ol>
+     <div class="callout tip"><b>Tip</b>Leave one section unplanned so you can follow whatever catches your attention.</div>`),
+
+  ART('ticket-admission', 'tickets', 'Admission options', 'Choose between general, concession, and companion entry in this fictional example.',
+    ['ticket','admission','price','concession'], ['ticket-timed','access-companion'],
+    `<h2>FICTIONAL ADMISSION</h2>
+     <dl class="fields">
+       <dt>General</dt><dd>Access to collection galleries and the sculpture garden</dd>
+       <dt>Concession</dt><dd>A reduced example rate for eligible visitors</dd>
+       <dt>Under 16</dt><dd>Free in this fictional policy when accompanied by an adult</dd>
+       <dt>Companion</dt><dd>Free entry for one support companion</dd>
+     </dl>
+     <div class="callout note"><b>Demo note</b>No real tickets are sold through this page.</div>`),
+  ART('ticket-timed', 'tickets', 'How timed entry works', 'Understand arrival windows without rushing your visit.',
+    ['timed entry','arrival','late','ticket'], ['ticket-admission','ticket-groups'],
+    `<h2>YOUR ARRIVAL WINDOW</h2>
+     <p>A timed ticket in this fictional example reserves a 30-minute arrival window; it does not limit how long you may remain before closing.</p>
+     <ol class="steps">
+       <li>Arrive at the main entrance during the printed window.</li>
+       <li>Have the sample ticket code ready for a visual check.</li>
+       <li>If you arrive late, speak with the welcome desk about the next quiet opening.</li>
+     </ol>`),
+  ART('ticket-groups', 'tickets', 'Arriving with a group', 'Keep school, family, and community groups together at entry.',
+    ['group','arrival','meeting point','coach'], ['family-schools','transport-dropoff'],
+    `<h2>GROUP ARRIVAL</h2>
+     <ol class="steps">
+       <li>Meet outside at the marked Cedar Gate meeting point.</li>
+       <li>Choose one group lead to speak with the welcome host.</li>
+       <li>Split into smaller gallery groups of no more than twelve.</li>
+       <li>Keep walkways and doorways clear while waiting.</li>
+     </ol>
+     <div class="callout tip"><b>Tip</b>Agree on a reunion point before entering the first gallery.</div>`),
+
+  ART('exhibit-orientation', 'exhibitions', 'Find your way through the galleries', 'Use the fictional atrium as the starting point for every route.',
+    ['galleries','map','atrium','orientation'], ['plan-route','exhibit-temporary'],
+    `<h2>GALLERY ORIENTATION</h2>
+     <ul class="bullets">
+       <li><strong>Ground floor</strong> — Atrium Gallery, welcome desk, and sculpture garden.</li>
+       <li><strong>Level 1</strong> — collection galleries and the family room.</li>
+       <li><strong>Level 2</strong> — rotating design exhibition and quiet room.</li>
+       <li><strong>Lower level</strong> — archive display and school studio.</li>
+     </ul>
+     <p>Large-print sample maps are described as available beside the welcome desk.</p>`),
+  ART('exhibit-temporary', 'exhibitions', 'Temporary exhibition: Material Echoes', 'A fictional exhibition used to demonstrate rich article content.',
+    ['temporary','material echoes','design','exhibition'], ['exhibit-orientation','exhibit-audio'],
+    `<h2>ABOUT THE DISPLAY</h2>
+     <p><em>Material Echoes</em> is entirely invented for this portfolio demo. It imagines how artists reuse glass, fibre, timber, and sound to tell stories about change.</p>
+     <ul class="bullets">
+       <li>Allow about 35 minutes.</li>
+       <li>Low-light sections are marked at the entrance.</li>
+       <li>Seating is available in the central room.</li>
+     </ul>`),
+  ART('exhibit-audio', 'exhibitions', 'Use the gallery audio trail', 'Follow a short, headphone-friendly route at your own pace.',
+    ['audio','headphones','trail','listening'], ['exhibit-temporary','access-quiet'],
+    `<h2>AUDIO TRAIL STOPS</h2>
+     <ol class="steps">
+       <li>Collect the fictional stop list at the atrium.</li>
+       <li>Begin with stop 01 beside the suspended glass work.</li>
+       <li>Adjust your device before entering quieter rooms.</li>
+       <li>Return borrowed headphones at the marked desk.</li>
+     </ol>
+     <div class="callout note"><b>Accessibility</b>Written transcripts are described as available for every sample stop.</div>`),
+
+  ART('access-step-free', 'accessibility', 'Step-free visitor route', 'Move between the fictional entrance, galleries, and garden without stairs.',
+    ['step free','wheelchair','lift','route'], ['access-companion','transport-dropoff'],
+    `<h2>STEP-FREE PATH</h2>
+     <ol class="steps">
+       <li>Enter through Cedar Gate, where the sample route has a level threshold.</li>
+       <li>Use Lift A for Levels 1 and 2.</li>
+       <li>Use the ramp beside the Window Court to reach the sculpture garden.</li>
+       <li>Ask a welcome host before entering the archive display, where the route narrows.</li>
+     </ol>
+     <div class="callout note"><b>Demo note</b>This route belongs to a fictional building.</div>`),
+  ART('access-quiet', 'accessibility', 'Plan a quieter visit', 'Reduce noise, crowds, and sensory load with a calmer route.',
+    ['quiet','sensory','crowds','calm'], ['plan-hours','exhibit-audio'],
+    `<h2>CALMER OPTIONS</h2>
+     <ul class="bullets">
+       <li>Choose a weekday morning.</li>
+       <li>Begin on Level 2 before the central galleries become busier.</li>
+       <li>Use the fictional quiet room beside Gallery 6.</li>
+       <li>Ask the welcome desk for a printed sensory overview.</li>
+     </ul>
+     <div class="callout tip"><b>Tip</b>The sculpture garden is the suggested break point on the sample route.</div>`),
+  ART('access-companion', 'accessibility', 'Companions and service animals', 'Understand the fictional support-companion and animal guidance.',
+    ['companion','service animal','assistance','support'], ['ticket-admission','visitor-assistance'],
+    `<h2>SUPPORTED VISITS</h2>
+     <p>One support companion is described as entering free with an eligible visitor in this fictional policy.</p>
+     <ul class="bullets">
+       <li>Trained service animals are welcome in all public galleries.</li>
+       <li>Water bowls are described as available near the garden exit.</li>
+       <li>Staff may help identify lower-traffic routes and nearby seating.</li>
+     </ul>`),
+
+  ART('family-route', 'families', 'A child-friendly gallery route', 'Keep the pace short, varied, and easy to pause.',
+    ['family','children','route','activities'], ['family-strollers','plan-route'],
+    `<h2>FAMILY HIGHLIGHTS</h2>
+     <ol class="steps">
+       <li>Start with the colour wall in the Atrium Gallery.</li>
+       <li>Look for three animal shapes in the collection rooms.</li>
+       <li>Take a drawing break in the family room.</li>
+       <li>Finish with the outdoor sculptures.</li>
+     </ol>
+     <div class="callout tip"><b>Tip</b>A 45-minute visit can be more enjoyable than trying to see everything.</div>`),
+  ART('family-schools', 'families', 'Preparing a school group', 'Plan supervision, arrival, and gallery movement.',
+    ['school','students','teachers','group'], ['ticket-groups','rules-gallery'],
+    `<h2>BEFORE ARRIVAL</h2>
+     <ul class="bullets">
+       <li>Assign one adult to each small group.</li>
+       <li>Share the fictional gallery-care rules before travelling.</li>
+       <li>Bring a written list of students and emergency contacts.</li>
+       <li>Choose a meeting point for the end of the visit.</li>
+     </ul>
+     <p>The lower-level studio is described as the waiting area for booked fictional workshops.</p>`),
+  ART('family-strollers', 'families', 'Strollers and baby care', 'Find a comfortable route for younger visitors and carers.',
+    ['stroller','baby','changing','carer'], ['access-step-free','rules-bags'],
+    `<h2>PRACTICAL INFORMATION</h2>
+     <ul class="bullets">
+       <li>Compact strollers are described as welcome on the step-free route.</li>
+       <li>A fictional baby-care room sits beside the Level 1 family room.</li>
+       <li>Hot drinks remain outside the galleries.</li>
+       <li>Ask a welcome host where to park oversized pushchairs during busy periods.</li>
+     </ul>`),
+
+  ART('transport-public', 'transport', 'Arrive by public transport', 'Use the fictional tram and bus stops nearest the museum.',
+    ['bus','tram','public transport','station'], ['transport-cycle','transport-dropoff'],
+    `<h2>FICTIONAL CONNECTIONS</h2>
+     <dl class="fields">
+       <dt>Tram 2</dt><dd>Exit at Arcline Square, about four minutes on foot</dd>
+       <dt>Bus 14</dt><dd>Exit at Cedar Avenue, beside the step-free approach</dd>
+       <dt>Central Station</dt><dd>About fifteen minutes on foot via River Walk</dd>
+     </dl>
+     <div class="callout note"><b>Demo note</b>These routes and place names are invented.</div>`),
+  ART('transport-cycle', 'transport', 'Cycle parking', 'Park a bicycle near the fictional garden entrance.',
+    ['cycle','bicycle','parking','helmet'], ['transport-public','rules-bags'],
+    `<h2>BICYCLE ARRIVAL</h2>
+     <p>Sample bicycle racks are described as available outside the Garden Gate during opening hours.</p>
+     <ul class="bullets">
+       <li>Bring your own lock.</li>
+       <li>Do not attach bicycles to railings or accessibility handrails.</li>
+       <li>Carry helmets or place them in a fictional cloakroom locker.</li>
+     </ul>`),
+  ART('transport-dropoff', 'transport', 'Drop-off, parking, and coaches', 'Choose the safest fictional arrival point for vehicles.',
+    ['drop off','parking','coach','vehicle'], ['access-step-free','ticket-groups'],
+    `<h2>VEHICLE ACCESS</h2>
+     <ul class="bullets">
+       <li><strong>Accessible drop-off</strong> — Cedar Gate lay-by, beside the level entrance.</li>
+       <li><strong>General parking</strong> — fictional Riverside Garage, eight minutes away.</li>
+       <li><strong>Coaches</strong> — set down at Arcline Square, then continue to remote parking.</li>
+     </ul>
+     <div class="callout caution"><b>Caution</b>The museum forecourt is described as emergency-access only.</div>`),
+
+  ART('rules-photo', 'guidelines', 'Photography in the galleries', 'Know where casual photography is described as welcome.',
+    ['photography','camera','flash','tripod'], ['rules-gallery','visitor-feedback'],
+    `<h2>FICTIONAL PHOTO POLICY</h2>
+     <ul class="bullets">
+       <li>Handheld, non-flash photography is welcome in collection galleries.</li>
+       <li>No flash, tripods, selfie sticks, or separate lighting equipment.</li>
+       <li>Temporary displays may show a no-photography symbol.</li>
+       <li>Keep other visitors out of close-up images unless they agree.</li>
+     </ul>`),
+  ART('rules-bags', 'guidelines', 'Bags, food, and drink', 'Protect the fictional collection and keep walkways clear.',
+    ['bags','food','drink','cloakroom'], ['family-strollers','rules-gallery'],
+    `<h2>WHAT STAYS OUTSIDE</h2>
+     <ul class="bullets">
+       <li>Large backpacks and umbrellas go in the fictional cloakroom.</li>
+       <li>Water bottles remain closed inside galleries.</li>
+       <li>Food, hot drinks, and chewing gum stay in the café area.</li>
+       <li>Small bags should be carried at your side, not on your back.</li>
+     </ul>
+     <div class="callout tip"><b>Tip</b>Travelling light makes narrow gallery rooms easier to enjoy.</div>`),
+  ART('rules-gallery', 'guidelines', 'Caring for the galleries', 'Simple behaviour that protects art and other visitors.',
+    ['gallery care','touching','distance','behaviour'], ['rules-photo','family-schools'],
+    `<h2>IN THE GALLERIES</h2>
+     <ul class="bullets">
+       <li>Keep a comfortable distance from objects and display cases.</li>
+       <li>Do not touch works unless an interactive label invites it.</li>
+       <li>Use indoor voices and leave doorways clear.</li>
+       <li>Follow staff directions during a fictional alarm or evacuation.</li>
+     </ul>`),
+
+  ART('visitor-assistance', 'visitor-help', 'Ask for on-site assistance', 'Know where a visitor can request practical help in this fictional venue.',
+    ['assistance','welcome desk','staff','help'], ['access-companion','visitor-lost'],
+    `<h2>WELCOME DESKS</h2>
+     <p>Sample welcome points are described at the Atrium entrance and beside Lift A on Level 1.</p>
+     <ul class="bullets">
+       <li>Ask for directions, seating, or a quieter route.</li>
+       <li>Report a spill, blocked path, or damaged label.</li>
+       <li>Request the fictional large-print map or sensory overview.</li>
+     </ul>`),
+  ART('visitor-lost', 'visitor-help', 'Lost property', 'Retrace your route and report a missing item.',
+    ['lost property','missing','item','cloakroom'], ['visitor-assistance','rules-bags'],
+    `<h2>IF YOU LOSE SOMETHING</h2>
+     <ol class="steps">
+       <li>Check the last gallery, seating area, and cloakroom zone you used.</li>
+       <li>Tell a welcome host what the item looks like and where you last saw it.</li>
+       <li>Leave a contact method only with the fictional on-site desk.</li>
+       <li>Unclaimed sample items are described as held for 30 days.</li>
+     </ol>
+     <div class="callout caution"><b>Demo note</b>This page cannot receive or recover real lost-property reports.</div>`),
+  ART('visitor-feedback', 'visitor-help', 'Share feedback about a visit', 'Structure useful feedback without sending any real information.',
+    ['feedback','comment','visit','experience'], ['visitor-assistance','rules-photo'],
+    `<h2>USEFUL FEEDBACK INCLUDES</h2>
+     <ul class="bullets">
+       <li>The date and approximate time of the fictional visit.</li>
+       <li>The gallery or route involved.</li>
+       <li>What worked well or what created difficulty.</li>
+       <li>A practical suggestion, when you have one.</li>
+     </ul>
+     <p>No form is connected because Arcline Museum is fictional.</p>`),
+];
+
+const CAT_BY_ID = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+const ART_BY_ID = Object.fromEntries(ARTICLES.map(a => [a.id, a]));
+const POPULAR_IDS = ['plan-hours','ticket-admission','exhibit-orientation','access-step-free','family-route','transport-public'];
+
+function articlesForCat(catId) { return ARTICLES.filter(a => a.cat === catId); }
+function stripHtml(html) { return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' '); }
+const ARTICLE_TEXT = Object.fromEntries(ARTICLES.map(a => [a.id, stripHtml(a.body).toLowerCase()]));
+
+const STOPWORDS = new Set(['a','an','and','are','as','at','be','by','can','do','for','from','how','i','in','is','it','my','of','on','or','the','to','up','what','when','where','with']);
+
+function scoreArticle(a, qWords, phrase) {
+  let score = 0;
+  const title = a.title.toLowerCase();
+  const summary = a.summary.toLowerCase();
+  const kw = a.keywords.join(' ').toLowerCase();
+  const body = ARTICLE_TEXT[a.id];
+  if (phrase && title.includes(phrase)) score += 12;
+  qWords.forEach(w => {
+    if (!w) return;
+    const weight = STOPWORDS.has(w) ? 0.2 : 1;
+    if (title.includes(w)) score += 5 * weight;
+    if (kw.includes(w)) score += 4 * weight;
+    if (summary.includes(w)) score += 3 * weight;
+    if (body.includes(w)) score += 1 * weight;
+  });
+  return score;
+}
+
+function searchArticles(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const qWords = q.split(/\s+/);
+  return ARTICLES
+    .map(a => ({ a, score: scoreArticle(a, qWords, q) }))
+    .filter(x => x.score > 0)
+    .sort((x, y) => y.score - x.score)
+    .map(x => x.a);
+}
+
+function highlight(text, query) {
+  const words = query.trim().split(/\s+/).filter(Boolean).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (!words.length) return esc(text);
+  const re = new RegExp('(' + words.join('|') + ')', 'ig');
+  return esc(text).replace(re, '<mark>$1</mark>');
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function iconSpan(name) {
+  return '<svg viewBox="0 0 24 24" fill="none">' + (ICONS[name] || '') + '</svg>';
+}
+
+function catCard(cat) {
+  const count = articlesForCat(cat.id).length;
+  return `<a class="cat-card" href="#/category/${cat.id}">
+    <span class="icon">${iconSpan(cat.icon)}</span>
+    <h3>${esc(cat.title)}</h3>
+    <p>${esc(cat.desc)}</p>
+    <span class="count">${count} article${count === 1 ? '' : 's'}</span>
+  </a>`;
+}
+
+function articleRow(a) {
+  return `<a class="article-row" href="#/article/${a.id}">
+    <span>
+      <p class="a-title">${esc(a.title)}</p>
+      <p class="a-summary">${esc(a.summary)}</p>
+    </span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>`;
+}
+
+function crumbs(items) {
+  const parts = items.map((it, i) => {
+    const isLast = i === items.length - 1;
+    if (isLast) return `<span class="current">${esc(it.label)}</span>`;
+    return `<a href="${it.href}">${esc(it.label)}</a><span class="sep">/</span>`;
+  });
+  return `<nav class="crumbs" aria-label="Breadcrumb">${parts.join('')}</nav>`;
+}
+
+let expandedCats = new Set();
+const CHEVRON_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function renderSidebarNav(activeCatId, activeArtId) {
+  const rows = CATEGORIES.map(cat => {
+    const isActive = cat.id === activeCatId;
+    const isOpen = expandedCats.has(cat.id);
+    const arts = articlesForCat(cat.id);
+    const artItems = arts.map(a => `<li><a href="#/article/${a.id}" class="${a.id === activeArtId ? 'current' : ''}">${esc(a.title)}</a></li>`).join('');
+    return `<li class="sb-cat ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" data-cat="${cat.id}">
+      <div class="sb-cat-row">
+        <a href="#/category/${cat.id}" class="sb-label" style="color:inherit;">${esc(cat.title)}</a>
+        <button type="button" class="sb-chevron" aria-label="Toggle ${esc(cat.title)} articles" aria-expanded="${isOpen}">${CHEVRON_SVG}</button>
+      </div>
+      <ul class="sb-articles">${artItems}</ul>
+    </li>`;
+  }).join('');
+  return `<div class="kb-sidebar" id="kb-sidebar">
+    <button type="button" class="sb-mobile-toggle" id="sb-mobile-toggle" aria-expanded="false">
+      <span>Browse categories</span>${CHEVRON_SVG}
+    </button>
+    <p class="kb-sidebar-title">Categories</p>
+    <ul class="sb-cat-list">${rows}</ul>
+  </div>`;
+}
+
+function wireSidebarNav() {
+  document.querySelectorAll('.sb-chevron').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const catEl = btn.closest('.sb-cat');
+      const id = catEl.dataset.cat;
+      if (expandedCats.has(id)) expandedCats.delete(id); else expandedCats.add(id);
+      catEl.classList.toggle('open');
+      btn.setAttribute('aria-expanded', catEl.classList.contains('open'));
+    });
+  });
+  const mobileToggle = document.getElementById('sb-mobile-toggle');
+  const sidebar = document.getElementById('kb-sidebar');
+  if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      mobileToggle.classList.toggle('open', open);
+      mobileToggle.setAttribute('aria-expanded', open);
+    });
+  }
+}
+
+function viewHome() {
+  const cards = CATEGORIES.map(catCard).join('');
+  const popular = POPULAR_IDS.map(id => ART_BY_ID[id]).filter(Boolean)
+    .map(a => `<a href="#/article/${a.id}">${esc(a.title)}</a>`).join('');
+  return `<div class="hero">
+    <p class="eyebrow">Arcline Museum Visitor Guide</p>
+    <h1>Plan your museum day</h1>
+    <p class="sub">Search the fictional visitor information, or browse by category below.</p>
+    <div class="search-hero">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <input id="hero-search" type="text" placeholder="Search articles…" autocomplete="off" aria-label="Search articles">
+    </div>
+    <div class="popular">${popular}</div>
+  </div>
+  <p class="section-label">Browse by category</p>
+  <div class="cat-grid">${cards}</div>`;
+}
+
+function viewCategory(id) {
+  const cat = CAT_BY_ID[id];
+  if (!cat) return viewNotFound();
+  const arts = articlesForCat(id);
+  expandedCats.add(id);
+  return `<div class="kb-layout">
+    ${renderSidebarNav(id, null)}
+    <div>
+      ${crumbs([{ label: 'Visitor Guide', href: '#/' }, { label: cat.title }])}
+      <div class="cat-header">
+        <span class="icon">${iconSpan(cat.icon)}</span>
+        <div><h1>${esc(cat.title)}</h1><p>${esc(cat.desc)}</p></div>
+      </div>
+      <div class="article-list">${arts.map(articleRow).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function viewArticle(id) {
+  const a = ART_BY_ID[id];
+  if (!a) return viewNotFound();
+  const cat = CAT_BY_ID[a.cat];
+  const related = (a.related || []).map(rid => ART_BY_ID[rid]).filter(Boolean);
+  const sameCat = articlesForCat(a.cat).filter(x => x.id !== a.id).slice(0, 5);
+  expandedCats.add(a.cat);
+  return `<div class="kb-layout">
+    ${renderSidebarNav(a.cat, a.id)}
+    <div>
+      ${crumbs([{ label: 'Visitor Guide', href: '#/' }, { label: cat.title, href: '#/category/' + cat.id }, { label: a.title }])}
+      <div class="article-wrap">
+        <article class="article">
+          <span class="article-tag">${esc(cat.title)}</span>
+          <h1>${esc(a.title)}</h1>
+          <p class="lede">${esc(a.summary)}</p>
+          ${a.body}
+        </article>
+        <aside class="side">
+          <div class="box">
+            <h4>In this category</h4>
+            ${sameCat.map(x => `<a href="#/article/${x.id}">${esc(x.title)}</a>`).join('') || '<span style="color:var(--color-text-muted);font-size:13.5px;">No other articles yet.</span>'}
+          </div>
+          ${related.length ? `<div class="box"><h4>Related</h4>${related.map(x => `<a href="#/article/${x.id}">${esc(x.title)}</a>`).join('')}</div>` : ''}
+        </aside>
+      </div>
+    </div>
+  </div>`;
+}
+
+function viewSearch(query) {
+  const trimmed = query.trim();
+  const results = trimmed ? searchArticles(query) : [];
+  const rows = results.map(a => {
+    const cat = CAT_BY_ID[a.cat];
+    return `<a class="article-row" href="#/article/${a.id}">
+      <span>
+        <p class="a-title">${highlight(a.title, query)}</p>
+        <p class="a-summary">${highlight(a.summary, query)} <span style="opacity:.7;">· ${esc(cat.title)}</span></p>
+      </span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>`;
+  }).join('');
+  const body = !trimmed
+    ? `<div class="empty"><h2>Search for an article</h2><p>Try a keyword like "tickets", "quiet", or "transport".</p></div>`
+    : results.length
+      ? `<p class="results-count">${results.length} result${results.length === 1 ? '' : 's'} for "${esc(trimmed)}"</p><div class="article-list">${rows}</div>`
+      : `<div class="empty"><h2>No results for "${esc(trimmed)}"</h2><p>Try a different keyword, or browse categories from the home page.</p></div>`;
+  return `${crumbs([{ label: 'Visitor Guide', href: '#/' }, { label: 'Search results' }])}
+  <div class="search-hero" style="margin:0 0 32px;max-width:none;">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <input id="results-search" type="text" placeholder="Search articles…" autocomplete="off" value="${esc(trimmed)}" aria-label="Search articles">
+  </div>
+  ${body}`;
+}
+
+function viewNotFound() {
+  return `<div class="empty" style="padding-top:96px;">
+    <h2>We couldn't find that page</h2>
+    <p>It may have moved. <a href="#/">Head back to the Visitor Guide home page</a>.</p>
+  </div>`;
+}
+
+function parseHash() {
+  const h = location.hash.replace(/^#\/?/, '');
+  const parts = h.split('/').filter(Boolean);
+  if (!parts.length) return { view: 'home' };
+  if (parts[0] === 'category' && parts[1]) return { view: 'category', id: parts[1] };
+  if (parts[0] === 'article' && parts[1]) return { view: 'article', id: parts[1] };
+  if (parts[0] === 'search') return { view: 'search', q: decodeURIComponent(parts.slice(1).join('/') || '') };
+  return { view: 'notfound' };
+}
+
+function render() {
+  const route = parseHash();
+  const main = document.getElementById('main');
+  let html = '';
+  if (route.view === 'home') html = viewHome();
+  else if (route.view === 'category') html = viewCategory(route.id);
+  else if (route.view === 'article') {
+    const art = ART_BY_ID[route.id];
+    html = art ? viewArticle(route.id) : viewNotFound();
+  }
+  else if (route.view === 'search') html = viewSearch(route.q || '');
+  else html = viewNotFound();
+  main.innerHTML = html;
+  wireSidebarNav();
+  wireSearchBoxes();
+  window.scrollTo(0, 0);
+}
+
+function goToSearch(q) {
+  location.hash = '#/search/' + encodeURIComponent(q.trim());
+}
+
+function buildSuggestHtml(query) {
+  const results = searchArticles(query).slice(0, 6);
+  if (!results.length) return '';
+  const rows = results.map(a => `<a href="#/article/${a.id}" data-suggest="1">
+    <span class="s-title">${highlight(a.title, query)}</span>
+    <span class="s-cat">${esc(CAT_BY_ID[a.cat].title)}</span>
+  </a>`).join('');
+  return `${rows}<a class="s-more" href="#/search/${encodeURIComponent(query.trim())}" data-suggest="1">See all results for "${esc(query.trim())}"</a>`;
+}
+
+function attachTypeahead(input, mountEl, opts) {
+  if (!input) return;
+  let box = null;
+  let activeIndex = -1;
+  function close() { if (box) { box.remove(); box = null; } activeIndex = -1; }
+  function open() {
+    const q = input.value;
+    close();
+    if (!q.trim()) return;
+    const html = buildSuggestHtml(q);
+    if (!html) return;
+    box = document.createElement('div');
+    box.className = 'suggest';
+    box.innerHTML = html;
+    mountEl.appendChild(box);
+  }
+  input.addEventListener('input', open);
+  input.addEventListener('focus', () => { if (input.value.trim()) open(); });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Enter') {
+      if (box) {
+        const links = box.querySelectorAll('a');
+        if (activeIndex >= 0 && links[activeIndex]) { location.hash = links[activeIndex].getAttribute('href'); close(); e.preventDefault(); return; }
+      }
+      goToSearch(input.value);
+      close();
+      return;
+    }
+    if (!box) return;
+    const links = Array.from(box.querySelectorAll('a'));
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIndex = Math.min(activeIndex + 1, links.length - 1);
+      links.forEach((l, i) => l.classList.toggle('active', i === activeIndex));
+      links[activeIndex] && links[activeIndex].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIndex = Math.max(activeIndex - 1, 0);
+      links.forEach((l, i) => l.classList.toggle('active', i === activeIndex));
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (box && !mountEl.contains(e.target)) close();
+  });
+  if (opts && opts.closeOnNavigate) {
+    window.addEventListener('hashchange', close, { once: true });
+  }
+}
+
+function wireSearchBoxes() {
+  const header = document.getElementById('header-search');
+  if (header) {
+    attachTypeahead(header, document.getElementById('header-search-wrap'));
+  }
+  const hero = document.getElementById('hero-search');
+  if (hero) {
+    attachTypeahead(hero, hero.parentElement);
+  }
+  const results = document.getElementById('results-search');
+  if (results) {
+    attachTypeahead(results, results.parentElement);
+  }
+  window.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      const el = document.getElementById('hero-search') || document.getElementById('header-search');
+      if (el) el.focus();
+    }
+  });
+}
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', () => { render(); wireSearchBoxes(); updateThemeToggleButton(); });
+
+/* ======================= THEME ======================= */
+const THEME_KEY = 'arcline-visitor-theme';
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+
+function currentEffectiveTheme() {
+  const attr = document.documentElement.getAttribute('data-theme');
+  if (attr === 'light' || attr === 'dark') return attr;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function updateThemeToggleButton() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const eff = currentEffectiveTheme();
+  btn.innerHTML = eff === 'dark' ? SUN_SVG : MOON_SVG;
+  btn.setAttribute('aria-label', eff === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+}
+
+function toggleTheme() {
+  const next = currentEffectiveTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  updateThemeToggleButton();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.addEventListener('click', toggleTheme);
+});
+updateThemeToggleButton();
+render();
+</script>
+</html>

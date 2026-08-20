@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Tokens — fidelity direction, 19 August 2026.
+
+   Ground and ink are sampled from the target's settled hero
+   (design-loop-evidence/reference/heynesh-hero-settled-1440x1000.png):
+     ground #d0c8b8 (49.4% of frame) · ink #101010 · accent #f8f820 (19%)
+
+   The accent is the ONE permitted difference. Giorgio chose deeper blue on
+   the target's sand — option B, 19 August 2026 — after measurement showed a
+   light blue sitting at 1.01:1 against the ground, effectively invisible
+   where the target's yellow dominates.
+
+   Three accent roles, because accent-as-fill and accent-as-text need
+   different contrast on a light ground:
+     --accent      large graphic fills and the wordmark. 1.85:1 against the
+                   ground, the separation the target gets from yellow.
+                   Carries --ink text at 6.1:1, so filled controls pass AA.
+     --accent-hi   lighter hover on filled controls. --ink on it reads 7.8:1.
+     --accent-ink  accent-COLOURED TEXT on the sand. The fill blue is only
+                   2.1:1 there and would fail, so text uses this at 5.5:1.
+   ============================================================ */
+:root {
+  --ground: #d0c8b8;
+  --ground-raise: #d9d3c5;
+  --ground-sink: #c4bba8;
+
+  --ink: #101010;
+  --ink-dim: #504848;   /* 5.35:1 on --ground */
+  /* Was #6b635c, which measured 3.54:1 on the ground and failed AA wherever it
+     carried real text — the "Proved by" evidence lines in What I can do and
+     Tools. Those lines are the honesty device; they cannot be the faintest thing
+     on the page. #55504a measures 4.80:1. */
+  --ink-faint: #55504a;
+  --paper: #f8f0f0;
+
+  --accent: #2e9bdb;
+  --accent-hi: #4fb0e8;
+  --accent-ink: #0f5580;
+  /*
+   * The wordmark only. Chosen 20 August 2026 when Giorgio asked me to pick one
+   * of the two open questions and show him.
+   *
+   * `--accent` sits at 1.85:1 on the sand — fine as a graphic fill, but the
+   * wordmark is his NAME at 389px, and a low-vision reader could not read it.
+   * Large text needs 3:1; this measures **3.19:1**, so it now passes on its own
+   * terms rather than being excused as decoration.
+   *
+   * It is deliberately NOT used for filled controls: dark ink on this blue is
+   * only 3.59:1, which fails for normal-size text. Buttons keep `--accent`,
+   * where ink reads 6.1:1.
+   */
+  --accent-mark: #1a71a6;
+  --accent-target: #f8f820; /* the target's yellow — reference only, never shipped */
+
+  --dark: #121212;
+  --dark-raise: #1c1c1c;
+
+  --line: rgba(16, 16, 16, 0.14);
+  --line-strong: rgba(16, 16, 16, 0.28);
+
+  --rail-w: 300px;
+  --gutter: 40px;
+
+  /* Left inset for every chapter after the hero, so content clears the rail.
+     Below the rail's breakpoint it collapses to the plain gutter. */
+  --chapter-inset: var(--gutter);
+}
+
+@media (min-width: 1024px) {
+  :root { --chapter-inset: calc(var(--rail-w) + var(--gutter) * 2); }
+}
+
+@media (max-width: 1100px) { :root { --gutter: 32px; } }
+@media (max-width: 767px)  { :root { --gutter: 20px; } }
+
+html {
+  /* Giorgio, 20 August 2026: "clicking the different chapters has no transition
+     between them." Anchor jumps were instant, which on a 13,800px page reads as
+     a teleport rather than navigation.
+
+     `scroll-behavior` on the ROOT is what governs anchor navigation — setting it
+     on `body` does nothing for hash links. `scroll-padding-top` keeps a pinned
+     chapter from landing under the top edge. Both are ignored automatically when
+     the visitor prefers reduced motion, via the block at the end of this file. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+
+html, body {
+  background: var(--ground);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--accent);
+  color: var(--ink); /* dark ink on the fill blue — 6.1:1 */
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.skip:focus { left: var(--gutter); top: 10px; }
+
+/* ============================================================
+   Rail marquee.
+
+   The list is rendered twice and translated by exactly -50%, so the second copy
+   arrives where the first began and the loop has no seam. The duplicate half is
+   aria-hidden in the component.
+   ============================================================ */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee { animation: marquee-x 26s linear infinite; }
+
+/* No hover pause. It used to stop on hover, which Giorgio reported as a bug —
+   and he is right that it reads as one: the rail sits under the pointer for most
+   of the page, so the marquee froze constantly for no reason the reader could
+   see. A decorative loop should not respond to the cursor at all. */
+
+/* ============================================================
+   Scrollbars on internal scrollers.
+
+   Giorgio, 20 August 2026: "about the scrolling UI looks ugly."
+
+   The journey modal and the tools carousel both scroll internally, and both were
+   showing the platform scrollbar over the design. Hidden here rather than styled,
+   because both already carry their own affordance — the modal is obviously a
+   panel, and the carousel has the DRAG cursor and the segmented indicator.
+
+   The PAGE scrollbar is deliberately left alone; hiding that would cost the
+   reader their only sense of position across 15,000px.
+   ============================================================ */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* ============================================================
+   Chapter surfaces.
+
+   Chapters sit over the fixed portrait, so they need their own ground to stay
+   readable. A translucent sand with a blur keeps the portrait present behind the
+   text instead of hiding it, which is what the target does.
+   ============================================================ */
+.chapter-card {
+  background: color-mix(in srgb, var(--ground-raise) 88%, transparent);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+}
+
+/* ============================================================
+   Furniture layer — two real layouts, one set of elements.
+
+   bar.md M5. The hero and the rail are the SAME nodes; only their layout
+   changes, and GSAP Flip measures the difference and animates between them.
+
+   Both states are declared here as ordinary CSS rather than as inline pixel
+   coordinates. That matters: an earlier attempt positioned each nav item at
+   `left: gutter + i * 132px`, which collided the moment two labels had
+   different widths. Letting flexbox place them means the layout is correct at
+   any viewport and any label length, and Flip just reads the result.
+
+   Default (no attribute) is the RAIL layout, so the settled state is what
+   renders with no JavaScript at all.
+   ============================================================ */
+
+/* The settled rail column.
+
+   `justify-content: safe center` rather than plain `center`: a centred flex
+   column whose content exceeds its height overflows in BOTH directions and its
+   children silently overlap — that is how the stat card ended up hidden behind
+   the nav on a 900px viewport. `safe` degrades to flex-start instead, so the
+   cards never stack on top of one another.
+
+   NO overflow property here, deliberately. Setting `overflow-y: auto` makes the
+   computed `overflow-x` `auto` as well, and that clipped the hero-positioned
+   furniture to the 300px rail box for the whole flight — nav items bunched into
+   a sliver and the CTA rendered as a blue square. The column must stay a
+   non-clipping box because its children leave it entirely in the hero layout.
+
+   Short viewports drop the marquee instead; it is the least load-bearing card,
+   and SiteFurniture excludes hidden elements from the Flip set.
+
+   Measured by scripts/probe-rail.mjs, which fails if any two cards intersect. */
+.furn-col {
+  justify-content: safe center;
+}
+
+@media (max-height: 860px) {
+  .furn-marquee { display: none; }
+}
+
+[data-layout='hero'] .furn-col {
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+}
+
+/* Every card keeps its rail width in the hero, so the flight animates POSITION
+   only. The transition is driven by transforms (see SiteFurniture), and a card
+   whose width also changed would snap instead of travelling. */
+
+[data-layout='hero'] .furn-identity {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 4%;
+  width: var(--rail-w);
+}
+
+[data-layout='hero'] .furn-stats {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 24%;
+  width: var(--rail-w);
+}
+
+/* Nav spreads edge to edge at mid-height, flanking the portrait, and loses its
+   card — in the target's hero it is bare type on the ground. */
+[data-layout='hero'] .furn-nav {
+  position: absolute;
+  top: 38%;
+  left: var(--gutter);
+  right: var(--gutter);
+  width: auto;
+  padding: 0;
+  background: transparent !important;
+  backdrop-filter: none;
+}
+[data-layout='hero'] .furn-nav ul {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0;
+}
+
+/* No `transform: translateX(-50%)` here, deliberately. The flight sets a
+   transform on this element, which would overwrite a CSS one and shove the
+   button half its own width off-centre. Centring is done with `left` instead. */
+[data-layout='hero'] .furn-cta {
+  position: absolute;
+  left: calc(50% - (var(--rail-w) / 2));
+  bottom: 9%;
+  width: var(--rail-w);
+}
+
+[data-layout='hero'] .furn-email {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 5%;
+  width: var(--rail-w);
+}
+
+/* The marquee has no home in the hero, so it arrives rather than travels. */
+[data-layout='hero'] .furn-marquee {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 14%;
+  width: var(--rail-w);
+  pointer-events: none;
+}
+
+/* ============================================================
+   Reduced motion.
+
+   The rebuild is scroll-driven, so this matters more than it did:
+   pinning, scrubbed transforms and the horizontal track must all resolve
+   to a readable static sequence with nothing lost. Every ScrollTrigger is
+   skipped in JS before it is created; this is the belt-and-braces pass.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
