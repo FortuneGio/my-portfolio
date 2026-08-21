@@ -1,74 +1,67 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { howIWork } from '@/content/chapters';
-import { ChapterInset } from '@/components/ChapterShell';
 import { useScrollScene } from '@/lib/useScrollScene';
 
 /**
- * Chapter 5 — How I work (the target's "What you get", renamed).
+ * Chapter 5 — How I work.
  *
- * The target sets a very large three-line statement, then a numbered list beneath
- * it. Giorgio's principle — "Manual first. AI second. Judgment always." — is
- * already three lines, so it takes that shape without being forced into it.
+ * Rebuilt 21 August 2026 to the target's "What You Get?" shape, at Giorgio's
+ * request. Measured from his recording (jam.dev/c/f97e0a17):
+ *
+ *   - an enormous CENTRED two-line question as the heading;
+ *   - a small pill beneath it;
+ *   - ONE large centred sentence carrying the whole argument, with small icon
+ *     chips embedded between the words;
+ *   - the sentence reveals word by word as you scroll;
+ *   - hovering a chip opens a card explaining that part of the process.
+ *
+ * The four numbered step cards that used to sit underneath are gone — they are
+ * now the four chips' detail cards, which is the same content doing more work in
+ * less space, and is what makes the sentence worth reading slowly.
+ *
+ * The chips are real <button>s, not hover-only divs: the detail has to be
+ * reachable by keyboard and by touch, where there is no hover at all.
  */
 export function HowIWorkChapter() {
   const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState<number | null>(null);
 
   useScrollScene(root, ({ gsap }) => {
-    gsap.from('[data-statement-line]', {
+    // The heading arrives as two clipped lines.
+    gsap.from('[data-hiw-line]', {
       yPercent: 110,
-      duration: 0.8,
+      duration: 0.9,
       stagger: 0.1,
       ease: 'power3.out',
-      scrollTrigger: { trigger: root.current, start: 'top 68%' },
+      scrollTrigger: { trigger: root.current, start: 'top 72%', toggleActions: 'play none none reset' },
     });
 
     /*
-     * The word-by-word reveal Giorgio asked for: "u should add the what you get
-     * animation style, it's cool."
+     * Word-by-word reveal, scrubbed.
      *
-     * Measured from the target at `desktop-027-y08100.png`, where the paragraph
-     * under the big heading is part dark and part grey mid-scroll — each word
-     * darkens as the reader arrives at it, scrubbed rather than timed.
-     *
-     * Implemented as opacity per word, not colour: a colour tween would have to
-     * interpolate between two computed values and cannot inherit the dark
-     * chapter's palette, whereas opacity over the inherited ink works in both.
+     * One tween per word at an explicit timeline position rather than a single
+     * `stagger` — measured earlier, `stagger` left one word transitioning while
+     * every other word was already lit, so the sentence effectively arrived all
+     * at once.
      */
-    const words = gsap.utils.toArray<HTMLElement>('[data-word]');
+    const words = gsap.utils.toArray<HTMLElement>('[data-hiw-word]');
     if (words.length) {
-      // Explicit position per word rather than `stagger`.
-      //
-      // A single fromTo with `stagger: 0.5` did NOT hold each word at its dim
-      // start until its turn — probing the opacities mid-scroll showed one word
-      // transitioning and every other word already at 1, so the sentence
-      // effectively arrived all at once. Building one tween per word at a known
-      // position makes the from-state apply to all of them up front and the
-      // order deterministic.
-      gsap.set(words, { opacity: 0.22 });
+      gsap.set(words, { opacity: 0.2 });
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: '[data-reveal]',
-          start: 'top 82%',
-          end: 'bottom 55%',
+          trigger: '[data-hiw-sentence]',
+          start: 'top 84%',
+          end: 'bottom 60%',
           scrub: 0.4,
           invalidateOnRefresh: true,
         },
       });
       words.forEach((w, i) => {
-        tl.fromTo(w, { opacity: 0.22 }, { opacity: 1, ease: 'none', duration: 1.4 }, i * 0.6);
+        tl.fromTo(w, { opacity: 0.2 }, { opacity: 1, ease: 'none', duration: 1.4 }, i * 0.6);
       });
     }
-
-    gsap.from('[data-step]', {
-      y: 30,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: '[data-steps]', start: 'top 82%' },
-    });
   });
 
   return (
@@ -76,67 +69,86 @@ export function HowIWorkChapter() {
       ref={root}
       id="how-i-work"
       aria-labelledby="how-i-work-heading"
-      className="relative py-24"
+      className="relative py-28"
     >
-      <ChapterInset>
-        <p className="inline-flex items-center rounded-full border border-[var(--line-strong)] px-3.5 py-1.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.14em]">
-          {howIWork.eyebrow}
-        </p>
-
+      <div className="px-[var(--gutter)]" style={{ paddingLeft: 'var(--chapter-inset)' }}>
+        {/* The heading, centred and very large — the target's proportions. */}
         <h2
           id="how-i-work-heading"
-          className="mt-6 font-display text-[clamp(38px,7vw,104px)] font-bold leading-[0.94] tracking-[-0.045em]"
+          className="text-center font-display text-[clamp(46px,8.4vw,124px)] font-bold leading-[0.92] tracking-[-0.045em]"
         >
-          {howIWork.statement.map((line, i) => (
-            // Each line clips its own overflow so the reveal wipes from the
-            // baseline rather than sliding through the line above it.
+          {howIWork.statement.slice(0, 2).map((line) => (
             <span key={line} className="block overflow-hidden pb-[0.06em]">
-              <span
-                data-statement-line
-                className="block"
-                style={i === 2 ? { color: 'var(--accent-ink)' } : undefined}
-              >
+              <span data-hiw-line className="block">
                 {line}
               </span>
             </span>
           ))}
         </h2>
 
-        {/*
-          The scroll-revealed statement, in the target's "What You Get" shape.
-          Split on spaces at render time; each word is its own span so the reveal
-          can walk across the sentence. `whitespace-pre` on a trailing space keeps
-          the natural word gaps without inserting non-breaking spaces.
-        */}
-        <p
-          data-reveal
-          className="mt-12 max-w-[24ch] font-display text-[clamp(26px,3.6vw,50px)] font-bold leading-[1.12] tracking-[-0.03em]"
-        >
-          {howIWork.revealed.split(' ').map((w, i) => (
-            <span key={`${w}-${i}`} data-word className="inline-block">
-              {w}
-              <span className="whitespace-pre"> </span>
-            </span>
-          ))}
+        <p className="mt-8 flex justify-center">
+          <span className="inline-flex items-center rounded-full border border-[var(--line-strong)] px-4 py-2 font-mono text-[11.5px] font-medium uppercase tracking-[0.16em]">
+            {howIWork.eyebrow}
+          </span>
         </p>
 
-        <ol data-steps className="mt-14 grid gap-4 sm:grid-cols-2">
-          {howIWork.steps.map((s) => (
-            <li key={s.n} data-step className="chapter-card p-6">
-              <p
-                className="font-mono text-[12px] font-medium tracking-[0.1em]"
-                style={{ color: 'var(--accent-ink)' }}
-              >
-                {s.n}
-              </p>
-              <h3 className="mt-3 font-display text-[19px] font-bold leading-[1.2] tracking-[-0.02em]">
-                {s.title}
-              </h3>
-              <p className="mt-2.5 text-[14.5px] leading-[1.6] text-[var(--ink-dim)]">{s.body}</p>
-            </li>
+        {/*
+          The sentence. Each word is its own span so the reveal can walk across
+          it, and a chip is spliced in after the clause it belongs to.
+        */}
+        <div
+          data-hiw-sentence
+          className="mx-auto mt-10 max-w-[19ch] text-center font-display text-[clamp(26px,3.9vw,54px)] font-bold leading-[1.22] tracking-[-0.03em]"
+          onMouseLeave={() => setActive(null)}
+        >
+          {howIWork.clauses.map((clause, ci) => (
+            <span key={clause.text} className="relative">
+              {clause.text.split(' ').map((w, wi) => (
+                <span key={`${w}-${wi}`} data-hiw-word className="inline-block">
+                  {w}
+                  <span className="whitespace-pre"> </span>
+                </span>
+              ))}
+
+              <span className="relative inline-block align-middle">
+                <button
+                  type="button"
+                  aria-expanded={active === ci}
+                  aria-label={`What "${howIWork.steps[ci]?.title}" means`}
+                  onMouseEnter={() => setActive(ci)}
+                  onFocus={() => setActive(ci)}
+                  onClick={() => setActive(active === ci ? null : ci)}
+                  className="mx-1 inline-flex h-[1.05em] min-h-[32px] min-w-[46px] items-center justify-center rounded-[10px] px-2 align-middle transition-transform hover:scale-[1.06]"
+                  style={{ background: 'var(--accent)' }}
+                >
+                  <span aria-hidden className="text-[0.44em] leading-none text-[var(--ink)]">
+                    {clause.icon}
+                  </span>
+                </button>
+
+                {/* The detail card. Positioned beside its own chip. */}
+                {active === ci ? (
+                  <span
+                    role="tooltip"
+                    className="chapter-card absolute left-1/2 top-[calc(100%+10px)] z-30 block w-[280px] -translate-x-1/2 p-4 text-left shadow-[0_16px_44px_rgba(16,16,16,0.18)]"
+                  >
+                    <span className="block font-display text-[16.5px] font-bold leading-[1.2] tracking-[-0.015em]">
+                      {howIWork.steps[ci]?.title}
+                    </span>
+                    <span className="mt-2 block text-[14px] font-medium leading-[1.55] text-[var(--ink-dim)]">
+                      {howIWork.steps[ci]?.body}
+                    </span>
+                  </span>
+                ) : null}
+              </span>
+            </span>
           ))}
-        </ol>
-      </ChapterInset>
+        </div>
+
+        <p className="mt-10 text-center text-[14.5px] text-[var(--ink-faint)]">
+          Tap or hover a marker to see what each part means.
+        </p>
+      </div>
     </section>
   );
 }

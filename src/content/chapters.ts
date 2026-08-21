@@ -368,7 +368,7 @@ export const projects: Project[] = [
     media: {
       kind: 'collage',
       src: '/media/projects/beyond-the-belt-bts.jpg',
-      extra: ['/media/projects/newmans-bts.jpg', '/media/projects/jmuse-bts.jpg'],
+      extra: ['/media/projects/wedding-bts.jpg', '/media/projects/jmuse-bts.jpg'],
     },
     // A single card with several works behind it, rather than five cards that
     // would drown the web work this portfolio is actually arguing for.
@@ -487,9 +487,20 @@ export const filmWorks: Project[] = [
 export const howIWork = {
   eyebrow: 'How I work',
   statement: ['Manual first.', 'AI second.', 'Judgment always.'],
-  /** Revealed word by word on scroll — see HowIWorkChapter. */
-  revealed:
-    'Learn the process by hand, find where it breaks, automate only the repetition, and say plainly which parts are finished.',
+  /**
+   * The sentence, split at the points where a marker is embedded.
+   *
+   * Each clause pairs with the step of the same index: hovering the marker after
+   * a clause opens that step's card. Rebuilt 21 August 2026 to the target's
+   * "What You Get?" shape, where the whole chapter is one sentence you read
+   * slowly rather than a statement plus a grid of cards.
+   */
+  clauses: [
+    { text: 'Learn the process by hand,', icon: '01' },
+    { text: 'find where it breaks,', icon: '02' },
+    { text: 'automate only the repetition,', icon: '03' },
+    { text: 'and say plainly which parts are finished.', icon: '04' },
+  ],
   steps: [
     {
       n: '01',

@@ -94,45 +94,113 @@ export function ProjectsChapter() {
           }
         });
 
-        ScrollTrigger.refresh();
-        window.scrollTo(0, anchor);
+        // No refresh here: the scene is rebuilt from scratch via `revision`,
+        // which is the only thing that clears the pin spacer. Holding the scroll
+        // keeps the rebuild from throwing the reader down the page.
+        void ScrollTrigger;
+        requestAnimationFrame(() => window.scrollTo(0, anchor));
       })();
     }
 
     prevRects.current = after;
   }, [expanded]);
 
-  useScrollScene(root, ({ gsap }) => {
+  /**
+   * How much the row has to travel sideways. Drives the section's height, so
+   * React owns the scroll length rather than GSAP.
+   */
+  const [distance, setDistance] = useState(0);
+
+  useLayoutEffect(() => {
     const track = root.current?.querySelector<HTMLElement>('[data-track]');
     const viewport = root.current?.querySelector<HTMLElement>('[data-track-viewport]');
     if (!track || !viewport) return;
 
-    const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+    /*
+     * Measured from LAYOUT, not from `scrollWidth`.
+     *
+     * The cards carry GSAP `x` transforms while the expand/collapse animation
+     * plays, and `scrollWidth` counts that displacement: measuring mid-flight
+     * reported a row 5,710px wide when the real one was 1,944px, and the section
+     * inherited that as its height. `offsetLeft`/`offsetWidth` are layout values,
+     * so a transform cannot inflate them.
+     */
+    const measure = () => {
+      const cards = track.querySelectorAll<HTMLElement>('li[data-card]');
+      const last = cards[cards.length - 1];
+      if (!last) return;
+      const padRight = parseFloat(getComputedStyle(track).paddingRight) || 0;
+      const contentWidth = last.offsetLeft + last.offsetWidth + padRight;
+      setDistance(Math.max(0, Math.round(contentWidth - viewport.clientWidth)));
+    };
+    measure();
 
-    gsap.to(track, {
-      x: () => -distance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: root.current,
-        start: 'top top',
-        // +=distance keeps one pixel of scroll to one pixel of travel, so the
-        // row never races ahead of or lags the reader's wheel.
-        end: () => `+=${distance()}`,
-        pin: true,
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-      },
-    });
-  });
+    const ro = new ResizeObserver(measure);
+    ro.observe(track);
+    ro.observe(viewport);
+    return () => ro.disconnect();
+  }, [expanded]);
+
+  /*
+   * CSS `position: sticky`, not GSAP's `pin`.
+   *
+   * The pin was the source of a bug I failed to fix twice. GSAP implements it by
+   * inserting a `.pin-spacer` element as the PARENT of this React-owned section.
+   * React knows nothing about that node, so when the row's length changed and the
+   * scene rebuilt, the spacers nested instead of replacing each other: after one
+   * expand-and-collapse the row needed 1,944px of travel while the spacers held
+   * 5,347px, and the reader scrolled through an empty dark panel. Neither
+   * `ScrollTrigger.refresh()` nor `kill(true)` cleared it, because the conflict
+   * is ownership of the DOM, not GSAP's bookkeeping.
+   *
+   * Sticky has no such problem. The section is one viewport tall plus `distance`,
+   * the inner panel sticks to the top for exactly that long, and every element
+   * involved is rendered by React — so changing `distance` is just a re-render.
+   */
+  useScrollScene(
+    root,
+    ({ gsap }) => {
+      const track = root.current?.querySelector<HTMLElement>('[data-track]');
+      if (!track) return;
+
+      const tween = gsap.to(track, {
+        x: () => {
+          const cards = track.querySelectorAll<HTMLElement>('li[data-card]');
+          const last = cards[cards.length - 1];
+          const vp = track.parentElement?.clientWidth ?? 0;
+          if (!last) return 0;
+          const padRight = parseFloat(getComputedStyle(track).paddingRight) || 0;
+          return -Math.max(0, last.offsetLeft + last.offsetWidth + padRight - vp);
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root.current,
+          // One pixel of page scroll to one pixel of sideways travel, across
+          // exactly the height the section was given.
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    },
+    { revision: distance },
+  );
 
   return (
     <section
       ref={root}
       id="work"
       aria-labelledby="work-heading"
-      className="relative overflow-hidden bg-[var(--dark)] py-20 text-[var(--paper)] lg:h-svh lg:py-0"
+      className="relative bg-[var(--dark)] py-20 text-[var(--paper)] lg:py-0"
+      style={{ height: distance ? `calc(100svh + ${distance}px)` : undefined }}
     >
-      <div className="lg:flex lg:h-full lg:flex-col lg:justify-start lg:pt-[5vh] lg:pb-[4vh]">
+      <div className="overflow-hidden lg:sticky lg:top-0 lg:flex lg:h-svh lg:flex-col lg:justify-start lg:pt-[5vh] lg:pb-[4vh]">
         <ChapterInset>
           <header className="lg:pt-4">
             <p className="inline-flex items-center rounded-full border border-[rgba(248,240,240,0.35)] px-3.5 py-1.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.14em]">
@@ -175,7 +243,7 @@ export function ProjectsChapter() {
                 // on screen. The media is `shrink-0` and the body fills the
                 // remainder, which keeps the ratio sane on every card.
                 className={`flex flex-col overflow-hidden rounded-[18px] bg-[var(--dark-raise)] lg:h-full lg:max-h-[560px] ${
-                  p.subItems ? 'lg:w-[560px]' : 'lg:w-[440px]'
+                  p.subItems ? 'lg:w-[660px]' : 'lg:w-[440px]'
                 }`}
               >
                 {/* Media first — the card leads with the work, not with a label. */}

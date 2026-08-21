@@ -6,11 +6,23 @@ import type { gsap as GsapType } from 'gsap';
 type Setup = (lib: {
   gsap: typeof GsapType;
   ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger;
-}) => void;
+}) => void | (() => void);
 
 interface Options {
   /** Skip entirely below this width. Scroll choreography is desktop-only, per the target. */
   minWidth?: number;
+  /**
+   * Bump to tear the scene down and rebuild it from scratch.
+   *
+   * Needed when the laid-out size of a PINNED element changes. `ScrollTrigger
+   * .refresh()` is not enough there: measured on production, expanding the
+   * projects row and collapsing it again left the pin spacer at 5,516px while
+   * the track only had 1,844px to travel — roughly 3,700px of dead scrolling
+   * past the last card, which is the "empty space" Giorgio kept reporting.
+   * Reverting the context removes the spacer entirely, so the rebuild starts
+   * from clean geometry instead of accumulating.
+   */
+  revision?: number;
 }
 
 /**
@@ -36,7 +48,7 @@ interface Options {
 export function useScrollScene(
   scope: RefObject<HTMLElement | null>,
   setup: Setup,
-  { minWidth = 1024 }: Options = {},
+  { minWidth = 1024, revision = 0 }: Options = {},
 ) {
   // Kept in a ref so changing the callback identity never re-runs the scene.
   const setupRef = useRef(setup);
@@ -68,5 +80,5 @@ export function useScrollScene(
       cancelled = true;
       ctx?.revert();
     };
-  }, [scope, minWidth]);
+  }, [scope, minWidth, revision]);
 }

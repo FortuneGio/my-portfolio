@@ -84,7 +84,18 @@ export function JourneyChapter() {
         opacity: 0,
         duration: 0.95,
         ease: 'power3.out',
-        scrollTrigger: { trigger: card, start: 'top 90%' },
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%',
+          // Giorgio, 21 August 2026: "the cards only plays one time, when scroll
+          // back up and go down again it doesn't play the same way."
+          //
+          // GSAP's default toggleActions is "play none none none" — it fires
+          // once and never rewinds, so on the way back the card was simply
+          // already in its end state. "reset" on leave-back rewinds it so the
+          // entrance runs again every time the card comes into view.
+          toggleActions: 'play none none reset',
+        },
       });
     });
   });
