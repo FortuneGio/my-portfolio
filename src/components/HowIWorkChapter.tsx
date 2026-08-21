@@ -10,7 +10,7 @@ import { useScrollScene } from '@/lib/useScrollScene';
  * Rebuilt 21 August 2026 to the target's "What You Get?" shape, at Giorgio's
  * request. Measured from his recording (jam.dev/c/f97e0a17):
  *
- *   - an enormous CENTRED two-line question as the heading;
+ *   - the three-line principle as the heading, the third line in accent;
  *   - a small pill beneath it;
  *   - ONE large centred sentence carrying the whole argument, with small icon
  *     chips embedded between the words;
@@ -75,11 +75,16 @@ export function HowIWorkChapter() {
         {/* The heading, centred and very large — the target's proportions. */}
         <h2
           id="how-i-work-heading"
-          className="text-center font-display text-[clamp(46px,8.4vw,124px)] font-bold leading-[0.92] tracking-[-0.045em]"
+          className="text-center font-display text-[clamp(44px,7.4vw,112px)] font-bold leading-[0.9] tracking-[-0.045em]"
         >
-          {howIWork.statement.slice(0, 2).map((line) => (
-            <span key={line} className="block overflow-hidden pb-[0.06em]">
-              <span data-hiw-line className="block">
+          {howIWork.statement.map((line, i) => (
+            <span key={line} className="block overflow-hidden pb-[0.08em]">
+              <span
+                data-hiw-line
+                className="block"
+                // The third line is the punchline and the chapter's only accent.
+                style={i === 2 ? { color: 'var(--accent-ink)' } : undefined}
+              >
                 {line}
               </span>
             </span>
@@ -98,7 +103,7 @@ export function HowIWorkChapter() {
         */}
         <div
           data-hiw-sentence
-          className="mx-auto mt-10 max-w-[19ch] text-center font-display text-[clamp(26px,3.9vw,54px)] font-bold leading-[1.22] tracking-[-0.03em]"
+          className="mx-auto mt-12 max-w-[15ch] text-center font-display text-[clamp(34px,5.2vw,104px)] font-bold leading-[0.98] tracking-[-0.038em]"
           onMouseLeave={() => setActive(null)}
         >
           {howIWork.clauses.map((clause, ci) => (
@@ -118,10 +123,10 @@ export function HowIWorkChapter() {
                   onMouseEnter={() => setActive(ci)}
                   onFocus={() => setActive(ci)}
                   onClick={() => setActive(active === ci ? null : ci)}
-                  className="mx-1 inline-flex h-[1.05em] min-h-[32px] min-w-[46px] items-center justify-center rounded-[10px] px-2 align-middle transition-transform hover:scale-[1.06]"
+                  className="mx-[0.12em] inline-flex h-[0.64em] min-h-[34px] w-[1.02em] min-w-[52px] items-center justify-center rounded-[0.17em] align-middle transition-transform hover:scale-[1.07]"
                   style={{ background: 'var(--accent)' }}
                 >
-                  <span aria-hidden className="text-[0.44em] leading-none text-[var(--ink)]">
+                  <span aria-hidden className="text-[0.34em] font-bold leading-none text-[var(--ink)]">
                     {clause.icon}
                   </span>
                 </button>

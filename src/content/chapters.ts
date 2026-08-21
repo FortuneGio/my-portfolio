@@ -368,7 +368,7 @@ export const projects: Project[] = [
     media: {
       kind: 'collage',
       src: '/media/projects/beyond-the-belt-bts.jpg',
-      extra: ['/media/projects/wedding-bts.jpg', '/media/projects/jmuse-bts.jpg'],
+      extra: ['/media/projects/wedding-bts-wide.jpg', '/media/projects/jmuse-bts.jpg'],
     },
     // A single card with several works behind it, rather than five cards that
     // would drown the web work this portfolio is actually arguing for.
