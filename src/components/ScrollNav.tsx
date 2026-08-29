@@ -29,6 +29,18 @@ import { useEffect } from 'react';
  * The fix is to let only ONE thing drive the scroll: GSAP's ScrollToPlugin,
  * which ScrollTrigger is already aware of. `scroll-behavior` goes back to `auto`
  * (see globals.css) and every hash click is intercepted here instead.
+ *
+ * Follow-up, 22 August 2026 (jam.dev/c/dce29470): "clicking home is not
+ * properly bring you to home page" — still. The recording shows the reader
+ * clicking Home/About/Journey rapidly, a few times a second. Each click
+ * started its own `gsap.to(window, {scrollTo...})`, and without `overwrite`
+ * GSAP does not assume a second tween on the same target should win — both
+ * tweens kept driving `scrollTop` at once, each toward a DIFFERENT target,
+ * fighting for a few real seconds before one finally won. That is the ~4s of
+ * blurred limbo in the recording after the last click, not a single bad
+ * jump. `overwrite: true` below makes every new click immediately kill
+ * whatever scroll tween is still in flight, so only the most recent click
+ * ever has a say.
  */
 export function ScrollNav() {
   useEffect(() => {
@@ -77,6 +89,9 @@ export function ScrollNav() {
           duration,
           ease: 'power2.inOut',
           scrollTo: { y: target, offsetY: 24, autoKill: true },
+          // A second click before the first jump finishes must win outright,
+          // not share control of scrollTop with the tween it interrupted.
+          overwrite: true,
         });
       })();
     };
