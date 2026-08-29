@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { howIWork } from '@/content/chapters';
 import { useScrollScene } from '@/lib/useScrollScene';
 
@@ -27,6 +27,11 @@ import { useScrollScene } from '@/lib/useScrollScene';
 export function HowIWorkChapter() {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number | null>(null);
+  // What is actually in the DOM. Kept open one tick after `active` clears so the
+  // card can animate out instead of vanishing — see DetailCard below.
+  const [mounted, setMounted] = useState<number | null>(null);
+
+  if (active !== null && mounted !== active) setMounted(active);
 
   useScrollScene(root, ({ gsap }) => {
     // The heading arrives as two clipped lines.
@@ -62,7 +67,11 @@ export function HowIWorkChapter() {
         tl.fromTo(w, { opacity: 0.2 }, { opacity: 1, ease: 'none', duration: 1.4 }, i * 0.6);
       });
     }
-  });
+    // Giorgio, 22 August 2026: "in the mobile it lacks animation." This scene is
+    // a plain clip-reveal and a scrubbed opacity walk — nothing pinned, nothing
+    // measured by Flip — so unlike the rail/tools/hero choreography there is no
+    // reason to gate it to desktop.
+  }, { minWidth: 0 });
 
   return (
     <section
@@ -132,18 +141,13 @@ export function HowIWorkChapter() {
                 </button>
 
                 {/* The detail card. Positioned beside its own chip. */}
-                {active === ci ? (
-                  <span
-                    role="tooltip"
-                    className="chapter-card absolute left-1/2 top-[calc(100%+10px)] z-30 block w-[280px] -translate-x-1/2 p-4 text-left shadow-[0_16px_44px_rgba(16,16,16,0.18)]"
-                  >
-                    <span className="block font-display text-[16.5px] font-bold leading-[1.2] tracking-[-0.015em]">
-                      {howIWork.steps[ci]?.title}
-                    </span>
-                    <span className="mt-2 block text-[14px] font-medium leading-[1.55] text-[var(--ink-dim)]">
-                      {howIWork.steps[ci]?.body}
-                    </span>
-                  </span>
+                {mounted === ci ? (
+                  <DetailCard
+                    open={active === ci}
+                    onExited={() => setMounted((m) => (m === ci ? null : m))}
+                    title={howIWork.steps[ci]?.title}
+                    body={howIWork.steps[ci]?.body}
+                  />
                 ) : null}
               </span>
             </span>
@@ -155,5 +159,93 @@ export function HowIWorkChapter() {
         </p>
       </div>
     </section>
+  );
+}
+
+/**
+ * A marker's detail card.
+ *
+ * Giorgio, 22 August 2026: "please make the marker pop up more smooth, and more
+ * motion like heynesh.com." It used to be a bare conditional render — the card
+ * simply existed or did not, on both the way in and the way out, which read as
+ * a glitch rather than a reveal.
+ *
+ * It stays MOUNTED for one extra beat after `open` goes false, so the close can
+ * actually play — `onExited` is what tells the parent it is now safe to remove
+ * from the DOM. A `back.out` ease on the way in and a quick `power2.in` on the
+ * way out is deliberately asymmetric: arriving gets a small overshoot so the
+ * pop reads as motion, leaving is just fast, because a lingering exit on a
+ * hover tooltip feels like the UI is stuck rather than considered.
+ */
+function DetailCard({
+  open,
+  onExited,
+  title,
+  body,
+}: {
+  open: boolean;
+  onExited: () => void;
+  title?: string;
+  body?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (!open) onExited();
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      const { gsap } = await import('gsap');
+      if (cancelled) return;
+
+      if (open) {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: -8, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.8)' },
+        );
+      } else {
+        gsap.to(el, {
+          opacity: 0,
+          y: -6,
+          scale: 0.94,
+          duration: 0.18,
+          ease: 'power2.in',
+          onComplete: () => {
+            if (!cancelled) onExited();
+          },
+        });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // Deliberately keyed on `open` alone: `onExited` is a fresh closure every
+    // parent render, but this effect only needs to fire on an open/close edge,
+    // and whichever `onExited` is in scope at that moment is the current one.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  return (
+    <span
+      ref={ref}
+      role="tooltip"
+      className="chapter-card absolute left-1/2 top-[calc(100%+10px)] z-30 block w-[280px] -translate-x-1/2 p-4 text-left shadow-[0_16px_44px_rgba(16,16,16,0.18)]"
+      style={{ transformOrigin: 'top center' }}
+    >
+      <span className="block font-display text-[16.5px] font-bold leading-[1.2] tracking-[-0.015em]">
+        {title}
+      </span>
+      <span className="mt-2 block text-[14px] font-medium leading-[1.55] text-[var(--ink-dim)]">
+        {body}
+      </span>
+    </span>
   );
 }

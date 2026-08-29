@@ -26,7 +26,9 @@ export function WhatICanDoChapter() {
       ease: 'power2.out',
       scrollTrigger: { trigger: '[data-capabilities]', start: 'top 80%' },
     });
-  });
+    // Plain fade-and-rise, safe on mobile. Giorgio, 22 August 2026: "in the
+    // mobile it lacks animation."
+  }, { minWidth: 0 });
 
   return (
     <section

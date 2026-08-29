@@ -77,22 +77,55 @@ export function IntroSequence() {
       ctx = gsap.context(() => {
         const q = (s: string) => document.querySelector<HTMLElement>(s);
         const wordmark = q('[data-intro="wordmark"]');
+        const letters = gsap.utils.toArray<HTMLElement>('[data-wordmark-letter]');
         const portrait = q('[data-intro="portrait"]');
         const furniture = q('[data-intro="furniture"]');
         const headline = q('[data-intro="headline"]');
+        const headlineLines = gsap.utils.toArray<HTMLElement>('[data-intro-headline-line]');
         const chips = q('[data-intro="chips"]');
         const items = gsap.utils.toArray<HTMLElement>('[data-fly]');
 
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-        // 1. The name arrives on its own.
-        if (wordmark) {
+        /*
+         * 1. The name BUILDS, letter by letter — not one block fading in.
+         *
+         * Giorgio, 22 August 2026: "make the intro (name animation) like
+         * heynesh.com." Measured off his recording
+         * (jam.dev/c/b103f9c5-abae-499d-984c-c7be8b154c1f) and the reference
+         * captures in design-loop-evidence/reference/motion/: the name does not
+         * arrive as a settled block — it is still visibly under construction a
+         * beat after it starts appearing, one letter rising out of its mask
+         * after another. `letters` is what makes that literal: each character
+         * has its own clip and rises out of it on its own stagger step, with a
+         * small random tilt so it settles rather than snapping straight.
+         */
+        if (letters.length) {
+          tl.from(
+            letters,
+            {
+              yPercent: 130,
+              opacity: 0,
+              rotate: () => gsap.utils.random(-7, 7),
+              duration: 0.8,
+              stagger: 0.055,
+              ease: 'power4.out',
+            },
+            0,
+          );
+        } else if (wordmark) {
           tl.from(wordmark, { yPercent: 16, opacity: 0, duration: 1.05 }, 0);
         }
 
-        // 2. Then him.
+        // 2. Then him — rising in as the name settles, coming into focus rather
+        // than simply fading (the target's figure is sharp by the time it's
+        // fully opaque, not still soft).
         if (portrait) {
-          tl.from(portrait, { y: 56, opacity: 0, duration: 0.95 }, 0.4);
+          tl.from(
+            portrait,
+            { y: 56, opacity: 0, filter: 'blur(22px)', duration: 1.05, ease: 'power2.out' },
+            0.42,
+          );
         }
 
         // 3. Then everything else, fading in and rising underneath.
@@ -103,7 +136,21 @@ export function IntroSequence() {
           tl.from(items, { opacity: 0, duration: 0.5, stagger: 0.045 }, 0.7);
         }
         if (headline) {
-          tl.from(headline, { y: 34, opacity: 0, duration: 0.8 }, 0.72);
+          tl.from(
+            headline,
+            { y: 26, opacity: 0, filter: 'blur(14px)', duration: 0.75, ease: 'power2.out' },
+            0.74,
+          );
+        }
+        // Cascading in on top of the container's own rise — the two beats
+        // together are what makes the headline read as arriving with weight
+        // rather than as a single fade.
+        if (headlineLines.length) {
+          tl.from(
+            headlineLines,
+            { yPercent: 120, duration: 0.7, stagger: 0.08, ease: 'power3.out' },
+            0.8,
+          );
         }
         if (chips) {
           tl.from(chips, { y: 26, opacity: 0, duration: 0.7 }, 0.86);

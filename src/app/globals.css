@@ -80,13 +80,22 @@
 html {
   /* Giorgio, 20 August 2026: "clicking the different chapters has no transition
      between them." Anchor jumps were instant, which on a 13,800px page reads as
-     a teleport rather than navigation.
+     a teleport rather than navigation. `scroll-behavior: smooth` fixed that —
+     but Giorgio then hit the fix's own failure mode, 22 August 2026: "when
+     clicking home it should bring you to the very first page properly, right
+     now is blurred." The browser's native smooth-scroll and every GSAP
+     ScrollTrigger on the page (portrait blur, wordmark scale, rail flight) both
+     read/drive `scrollY` each frame; on a long jump — Home from deep in a
+     ~15,000px page — they fight instead of converging, and the reader can be
+     left parked mid-flight with every scrub half-applied.
 
-     `scroll-behavior` on the ROOT is what governs anchor navigation — setting it
-     on `body` does nothing for hash links. `scroll-padding-top` keeps a pinned
-     chapter from landing under the top edge. Both are ignored automatically when
-     the visitor prefers reduced motion, via the block at the end of this file. */
-  scroll-behavior: smooth;
+     `ScrollNav.tsx` now owns every hash jump with GSAP's own ScrollToPlugin, so
+     ScrollTrigger only ever answers to one authority. This stays `auto` so the
+     browser never independently animates the same scroll GSAP is already
+     animating. `scroll-padding-top` still keeps a landed chapter clear of the
+     top edge for the rare native jump (e.g. a bookmark opened directly on a
+     hash) that `ScrollNav` didn't intercept. */
+  scroll-behavior: auto;
   scroll-padding-top: 24px;
 }
 

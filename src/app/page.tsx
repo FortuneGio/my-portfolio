@@ -4,6 +4,7 @@ import { PortraitBackdrop } from '@/components/PortraitBackdrop';
 import { SiteFurniture } from '@/components/SiteFurniture';
 import { MobileNav } from '@/components/MobileNav';
 import { IntroSequence } from '@/components/IntroSequence';
+import { ScrollNav } from '@/components/ScrollNav';
 import { AboutChapter } from '@/components/AboutChapter';
 import { JourneyChapter } from '@/components/JourneyChapter';
 import { ProjectsChapter } from '@/components/ProjectsChapter';
@@ -39,6 +40,7 @@ export default function Home() {
       <SiteFurniture />
       <MobileNav />
       <IntroSequence />
+      <ScrollNav />
 
       {/* pb clears the fixed mobile bar so the last chapter is not sat on */}
       <main id="main" className="relative z-10 pb-[72px] lg:pb-0">

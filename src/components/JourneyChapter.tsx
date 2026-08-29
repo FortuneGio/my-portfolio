@@ -64,6 +64,50 @@ export function JourneyChapter() {
     }
 
     /*
+     * The same drawn-line mechanic, for the mobile spine.
+     *
+     * Giorgio, 22 August 2026: "the journey chapter lacks the feeling of a
+     * timeline, add the line... see heynesh.com in mobile if possible." The
+     * curve above is `lg:` only — it threads between cards that alternate left
+     * and right, which only exists at the desktop width. Below that the cards
+     * stack in one column, so the honest equivalent is a straight spine down
+     * the left edge with a dot at each card, drawn the same way: scale from 0,
+     * scrubbed to how far the reader has scrolled through the chapter.
+     */
+    const mobileLine = root.current?.querySelector<HTMLElement>('[data-journey-line-mobile]');
+    if (mobileLine) {
+      gsap.set(mobileLine, { scaleY: 0, transformOrigin: 'top center' });
+      gsap.to(mobileLine, {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root.current,
+          start: 'top 62%',
+          end: 'bottom 88%',
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+    }
+
+    // A dot lights up (goes from hollow to filled) as the drawn line reaches
+    // it, so the spine reads as being built rather than sitting there static.
+    gsap.utils.toArray<HTMLElement>('[data-journey-dot]').forEach((dot) => {
+      gsap.to(dot, {
+        backgroundColor: 'var(--accent)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: dot,
+          start: 'top 78%',
+          end: 'top 55%',
+          scrub: 0.4,
+        },
+      });
+    });
+
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
+    /*
      * Giorgio, 20 August 2026: the journey animation is "too gak kelihatan" —
      * too hard to see. It was a 44px rise at 84% of the viewport, which mostly
      * finished before the card was properly on screen.
@@ -74,12 +118,18 @@ export function JourneyChapter() {
      * slightly and scaled back so the settle is visible. The trigger starts
      * later so the movement happens where the reader is actually looking.
      */
+    // Desktop cards travel from their side of the curve; a phone has no "side"
+    // to travel from (one stacked column), so the horizontal throw is much
+    // smaller there — enough to read as motion without the card visibly
+    // starting off past the viewport edge.
+    const xThrow = isDesktop ? 90 : 22;
+
     gsap.utils.toArray<HTMLElement>('[data-milestone]').forEach((card, i) => {
       const fromLeft = i % 2 === 0;
       gsap.from(card, {
-        x: fromLeft ? -90 : 90,
+        x: fromLeft ? -xThrow : xThrow,
         y: 60,
-        rotate: fromLeft ? -2.5 : 2.5,
+        rotate: isDesktop ? (fromLeft ? -2.5 : 2.5) : 0,
         scale: 0.94,
         opacity: 0,
         duration: 0.95,
@@ -98,7 +148,10 @@ export function JourneyChapter() {
         },
       });
     });
-  });
+    // Giorgio, 22 August 2026: "in the mobile it lacks animation" — this whole
+    // scene was gated to desktop by useScrollScene's default. Nothing here
+    // pins or measures a Flip rect, so it is safe below 1024px too.
+  }, { minWidth: 0 });
 
   return (
     <section
@@ -125,6 +178,28 @@ export function JourneyChapter() {
         </p>
 
         <div className="relative mt-14">
+          {/*
+            The mobile spine — a straight, drawn line down the left edge with a
+            dot at each card, standing in for the alternating curve above (which
+            has nowhere to alternate to in one stacked column). Two layers, like
+            the desktop path: a static dashed guide underneath, and a solid
+            accent line on top whose height is scrubbed to scroll.
+          */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-2 left-[15px] w-[2px] lg:hidden"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(to bottom, var(--line-strong) 0 6px, transparent 6px 12px)',
+            }}
+          />
+          <div
+            aria-hidden
+            data-journey-line-mobile
+            className="pointer-events-none absolute inset-y-2 left-[15px] w-[2px] lg:hidden"
+            style={{ background: 'var(--accent)' }}
+          />
+
           {/* The traced curve. Decorative — the cards carry the content. */}
           <svg
             aria-hidden
@@ -154,8 +229,16 @@ export function JourneyChapter() {
               <li
                 key={`${m.year}-${m.title}`}
                 data-milestone
-                className={`lg:w-[46%] ${i % 2 === 0 ? 'lg:self-start' : 'lg:self-end'}`}
+                className={`relative pl-9 lg:w-[46%] lg:pl-0 ${i % 2 === 0 ? 'lg:self-start' : 'lg:self-end'}`}
               >
+                {/* The mobile spine's node for this milestone. */}
+                <span
+                  aria-hidden
+                  data-journey-dot
+                  className="absolute left-[9px] top-2 h-[14px] w-[14px] rounded-full border-2 lg:hidden"
+                  style={{ borderColor: 'var(--accent)', background: 'var(--ground)' }}
+                />
+
                 <article className="chapter-card p-6">
                   <p
                     className="font-display text-[42px] font-bold leading-none"

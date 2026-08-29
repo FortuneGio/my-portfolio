@@ -34,7 +34,9 @@ export function AboutChapter() {
       ease: 'power2.out',
       scrollTrigger: { trigger: root.current, start: 'top 72%' },
     });
-  });
+    // A plain fade-and-rise — no pin, no Flip measurement — so it runs on
+    // mobile too. Giorgio, 22 August 2026: "in the mobile it lacks animation."
+  }, { minWidth: 0 });
 
   return (
     <section

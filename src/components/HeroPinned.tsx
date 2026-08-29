@@ -95,11 +95,15 @@ export function HeroPinned() {
               aria-label={`${heroLine.lines.join(' ')} ${heroLine.emphasis}`}
               className="font-display text-[clamp(38px,5.6vw,76px)] font-bold leading-[0.94] tracking-[-0.038em]"
             >
-              I turn ideas
-              <br />
-              into things you
-              <br />
-              can use.
+              {/* Split into clipped lines so IntroSequence can cascade them in,
+                  the same reveal used on the wordmark and the How I work heading. */}
+              {['I turn ideas', 'into things you', 'can use.'].map((line) => (
+                <span key={line} className="block overflow-hidden pb-[0.05em]">
+                  <span data-intro-headline-line className="block">
+                    {line}
+                  </span>
+                </span>
+              ))}
             </h1>
           </div>
         </div>
